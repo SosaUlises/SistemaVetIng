@@ -19,6 +19,12 @@ namespace SistemaVetIng.Models.Indentity
             string vetAdminUsername = config["VET_ADMIN_USERNAME"];
             string vetAdminPassword = config["VET_ADMIN_PASSWORD"];
 
+            // Verificación de seguridad de variables de entorno
+            if (string.IsNullOrEmpty(vetAdminEmail) || string.IsNullOrEmpty(vetAdminPassword))
+            {
+                throw new Exception("FATAL ERROR: Las variables de entorno VET_ADMIN_EMAIL o VET_ADMIN_PASSWORD no están configuradas en Render.");
+            }
+
             string[] roles = { "Cliente", "Veterinario", "Veterinaria" };
 
             foreach (var roleName in roles)
@@ -29,6 +35,7 @@ namespace SistemaVetIng.Models.Indentity
 
             var adminUser = await userManager.FindByEmailAsync(vetAdminEmail);
 
+            // Lógica de creación de Usuario
             if (adminUser == null)
             {
                 adminUser = new Usuario
@@ -36,17 +43,24 @@ namespace SistemaVetIng.Models.Indentity
                     UserName = vetAdminUsername,
                     Email = vetAdminEmail,
                     EmailConfirmed = true,
-                    NombreUsuario = vetAdminUsername,
+                    NombreUsuario = vetAdminUsername
                 };
 
                 var result = await userManager.CreateAsync(adminUser, vetAdminPassword);
 
                 if (result.Succeeded)
+                {
                     await userManager.AddToRoleAsync(adminUser, "Veterinaria");
+                }
+                else
+                {
+                    var errores = string.Join(", ", result.Errors.Select(e => e.Description));
+                    throw new Exception($"ERROR CRÍTICO al crear el usuario Admin: {errores}");
+                }
             }
 
-            // Crear la Veterinaria si no existe
-            if (!context.Veterinarias.Any())
+            // Crear la Veterinaria (Solo si el usuario es válido)
+            if (adminUser != null && adminUser.Id > 0 && !context.Veterinarias.Any())
             {
                 var nuevaVet = new Veterinaria
                 {
