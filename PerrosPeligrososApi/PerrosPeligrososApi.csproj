@@ -13,7 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Dockerfile.api" />
+    <None Remove="Dockerfile.Perros" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Dockerfile.Perros" />
   </ItemGroup>
 
   <ItemGroup>
