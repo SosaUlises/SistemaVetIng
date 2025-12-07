@@ -1,0 +1,134 @@
+﻿@model SistemaVetIng.ViewsModels.EstudioViewModel
+
+@{
+    ViewData["Title"] = "Nuevo Estudio - VetIng";
+    Layout = null;
+    string controllerDestino = User.IsInRole("Veterinario") ? "Veterinario" : "Veterinaria";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/portal-theme.css" asp-append-version="true" />
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="/@controllerDestino/PaginaPrincipal" class="logo">
+            <i class="fa-solid fa-paw"></i> VetIng
+        </a>
+        <nav class="main-nav">
+            <ul class="nav-list" id="navMenu">
+                <li><a class="nav-link" href="/@controllerDestino/PaginaPrincipal">Volver al Panel</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> Salir
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <div class="hamburger-menu" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <div class="dash-hero">
+            <div class="dash-title">
+                <h1>Nuevo <span>Estudio</span></h1>
+                <p class="dash-subtitle">Registra un nuevo tipo de estudio médico al catálogo.</p>
+            </div>
+        </div>
+
+        <section class="booking-container" style="max-width: 700px;">
+            <form asp-action="Crear" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom:20px;"></div>
+
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label asp-for="Nombre" class="form-label">Nombre del Estudio</label>
+                    <div style="position:relative;">
+                        <i class="fa-solid fa-microscope" style="position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--primary-color);"></i>
+                        <input asp-for="Nombre" class="form-control" placeholder="Ej: Ecografía Abdominal" style="padding-left:40px;" />
+                    </div>
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" style="margin-bottom:30px;">
+                    <label asp-for="Precio" class="form-label">Precio ($)</label>
+                    <input asp-for="Precio" type="number" step="0.01" min="0" class="form-control" placeholder="0.00" />
+                    <span asp-validation-for="Precio" class="text-danger"></span>
+                </div>
+
+                <div class="form-actions" style="display:flex; justify-content:flex-end; gap:15px;">
+                    <a asp-action="Index" class="btn btn-outline">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-save"></i> Guardar Estudio
+                    </button>
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-col footer-info">
+            <div class="footer-logo-container">
+                <div class="footer-logo-icon"><i class="fa-solid fa-paw"></i></div>
+                <h3 class="footer-brand">VetIng</h3>
+            </div>
+            <p class="footer-description">
+                Portal exclusivo para el personal médico. Gestión eficiente de pacientes y turnos.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Navegacion</h4>
+            <ul class="footer-links">
+                <li><a href="/@controllerDestino/PaginaPrincipal">Volver al inicio</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Soporte Técnico</h4>
+            <ul class="footer-links">
+                <li><a href="mailto:admin@veting.com">Contactar Admin</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" style="background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; font-family:inherit; font-size:0.95em; padding:0; text-decoration:underline;">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; @DateTime.Now.Year VetIng Software. Desarrollado por Ulises Sosa y Leonel Gallaretto.</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/menuhamburguesa.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("NToastNotify")
+
+    <script>
+        const burger = document.getElementById('hamburgerBtn');
+        const nav = document.getElementById('navMenu');
+        if(burger && nav){
+            burger.addEventListener('click', () => nav.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

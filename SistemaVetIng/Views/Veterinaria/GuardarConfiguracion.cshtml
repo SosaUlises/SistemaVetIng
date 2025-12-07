@@ -1,0 +1,206 @@
+﻿@model SistemaVetIng.Models.ConfiguracionVeterinariaViewModel
+
+@{
+    ViewData["Title"] = "Configurar Horarios - VetIng";
+    Layout = null;
+    string controllerDestino = User.IsInRole("Veterinario") ? "Veterinario" : "Veterinaria";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <link rel="stylesheet" href="~/css/portal-theme.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <header class="main-header">
+        <a href="/@controllerDestino/PaginaPrincipal" class="logo">
+            <i class="fa-solid fa-paw"></i> VetIng
+        </a>
+        <nav class="main-nav">
+            <ul class="nav-list" id="navMenu">
+                <li><a class="nav-link" href="/@controllerDestino/PaginaPrincipal">Volver al Panel</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> Salir
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <div class="hamburger-menu" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+
+    <main class="main-content">
+
+
+        <div class="dash-hero">
+            <div class="dash-title">
+                <h1>Configuración <span>Horaria</span></h1>
+                <p class="dash-subtitle">Define la duración de las consultas y los días de atención de la clínica.</p>
+            </div>
+        </div>
+
+
+        <section class="booking-container" style="max-width: 900px;">
+            <form asp-controller="Veterinaria" asp-action="GuardarConfiguracion" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+   
+                <div class="form-group" style="margin-bottom:40px;">
+                    <label asp-for="DuracionMinutosPorConsulta" class="form-label">
+                        <i class="fa-regular fa-clock" style="color:var(--primary-color);"></i> Duración promedio por consulta (minutos)
+                    </label>
+                    <input asp-for="DuracionMinutosPorConsulta" type="number" class="form-control" min="1" style="max-width: 150px;" />
+                    <span asp-validation-for="DuracionMinutosPorConsulta" class="text-danger"></span>
+                </div>
+
+     
+                <h4 class="form-section-title">Días y Horarios Laborables</h4>
+
+                <div class="schedule-list">
+                    @for (var i = 0; i < Model.Horarios.Count; i++)
+                    {
+                      
+                        <div class="schedule-item" id="row-day-@i">
+
+                            <input type="hidden" asp-for="Horarios[i].DiaSemana" />
+                            <input type="hidden" asp-for="Horarios[i].NombreDia" />
+
+              
+                            <div class="day-control">
+                                <label class="toggle-switch">
+                                   
+                                    <input asp-for="Horarios[i].EstaActivo" type="checkbox" class="day-toggle" data-index="@i" />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span class="day-label">@Model.Horarios[i].NombreDia</span>
+                            </div>
+
+
+                            <div class="time-inputs-wrapper" id="time-wrapper-@i">
+                                <div class="form-group" style="margin:0; flex:1;">
+                                    <input asp-for="Horarios[i].HoraInicio" type="time" class="form-control" />
+                                </div>
+
+                                <span class="time-separator">a</span>
+
+                                <div class="form-group" style="margin:0; flex:1;">
+                                    <input asp-for="Horarios[i].HoraFin" type="time" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+                <div class="form-actions" style="margin-top:40px; display:flex; justify-content:flex-end; gap:15px;">
+                    <a asp-controller="Veterinaria" asp-action="PaginaPrincipal" class="btn btn-outline">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar Configuración
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-col footer-info">
+            <div class="footer-logo-container">
+                <div class="footer-logo-icon"><i class="fa-solid fa-paw"></i></div>
+                <h3 class="footer-brand">VetIng</h3>
+            </div>
+            <p class="footer-description">
+                Portal exclusivo para el personal médico. Gestión eficiente de pacientes y turnos.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Navegacion</h4>
+            <ul class="footer-links">
+                <li><a href="/@controllerDestino/PaginaPrincipal">Volver al inicio</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Soporte Técnico</h4>
+            <ul class="footer-links">
+                <li><a href="mailto:admin@veting.com">Contactar Admin</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" style="background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; font-family:inherit; font-size:0.95em; padding:0; text-decoration:underline;">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; @DateTime.Now.Year VetIng Software. Desarrollado por Ulises Sosa y Leonel Gallaretto.</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/menuhamburguesa.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("NToastNotify")
+
+    <script>
+        // Menú
+        const burger = document.getElementById('hamburgerBtn');
+        const nav = document.getElementById('navMenu');
+        if(burger && nav){
+            burger.addEventListener('click', () => nav.classList.toggle('active'));
+        }
+
+        // LÓGICA DE HORARIOS
+        $(document).ready(function () {
+
+            function toggleRowState(index, isChecked) {
+                var row = $('#row-day-' + index);
+                var inputs = row.find('input[type="time"]');
+
+                if (isChecked) {
+                    // Habilitar
+                    row.removeClass('disabled-day');
+                    inputs.prop('disabled', false);
+                } else {
+                    // Deshabilitar
+                    row.addClass('disabled-day');
+                    inputs.prop('disabled', true);
+                    inputs.val(''); // Limpiar hora si se desactiva
+                }
+            }
+
+            // Inicializar estado al cargar la página
+            $('.day-toggle').each(function () {
+                var index = $(this).data('index');
+                var isChecked = $(this).is(':checked');
+                toggleRowState(index, isChecked);
+            });
+
+            // Evento Change
+            $('.day-toggle').change(function () {
+                var index = $(this).data('index');
+                var isChecked = $(this).is(':checked');
+                toggleRowState(index, isChecked);
+            });
+        });
+    </script>
+</body>
+</html>

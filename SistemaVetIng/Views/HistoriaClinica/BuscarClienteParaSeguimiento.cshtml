@@ -1,0 +1,202 @@
+﻿@model SistemaVetIng.ViewsModels.ListadoClientesViewModel
+@using X.PagedList.Mvc.Core; 
+@using X.PagedList; 
+
+@{
+    ViewData["Title"] = "Buscar Cliente - VetIng";
+    Layout = null; 
+
+    string controllerDestino = User.IsInRole("Veterinario") ? "Veterinario" : "Veterinaria";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/portal-theme.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header class="main-header">
+        <a href="../@controllerDestino/PaginaPrincipal" class="logo">
+            <i class="fa-solid fa-paw"></i> VetIng
+        </a>
+        <nav class="main-nav">
+            <ul class="nav-list" id="navMenu">
+                <li><a class="nav-link" href="../@controllerDestino/PaginaPrincipal">Volver al Panel</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> Salir
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <div class="hamburger-menu" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <main class="main-content">
+        
+        <section class="dash-hero dash-hero--center">
+            <div class="dash-title margin-bottom">
+                <h1>Seguimiento <span>Clínico</span></h1>
+                <p class="dash-subtitle">Busca al cliente para acceder a sus mascotas e historiales.</p>
+            </div>
+
+        <div class="search-focus-container">
+            <form asp-action="BuscarClienteParaSeguimiento" method="get" class="search-box">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input type="text" name="busquedaCliente" class="search-input" 
+                       placeholder="Buscar por Nombre, Apellido, DNI..." 
+                       value="@Model.BusquedaActual" autocomplete="off" />
+            </form>
+        </div>
+
+        <div class="list-container">
+            @if (Model.ClientesPaginados != null && Model.ClientesPaginados.Any())
+            {
+               <div class="table-responsive">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th class="text-center">DNI</th>
+                <th>Teléfono</th>
+                <th class="text-center">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in Model.ClientesPaginados)
+            {
+                <tr>
+                    <td data-label="Cliente">
+                        <div class="d-flex align-center gap-15">
+                            <div class="avatar-sm">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <span class="text-name">
+                                @cliente.Apellido, @cliente.Nombre
+                            </span>
+                        </div>
+                    </td>
+                    
+                    <td data-label="DNI" class="text-center">
+                        <span class="text-mono">
+                            @cliente.Dni
+                        </span>
+                    </td>
+                    
+                    <td data-label="Teléfono">
+                        <div class="d-flex align-center">
+                            <i class="fa-solid fa-phone icon-phone-sm"></i>
+                            <span>@cliente.Telefono</span>
+                        </div>
+                    </td>
+                    
+                    <td data-label="Acción" class="text-center">
+                        <a asp-controller="HistoriaClinica" asp-action="MascotasCliente" asp-route-clienteId="@cliente.Id" class="btn-action-table">
+                            <i class="fas fa-paw"></i> Ver Mascotas
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+                <div class="pagination-wrapper">
+                    @if (Model.ClientesPaginados.PageCount > 1)
+                    {
+                        @Html.PagedListPager(Model.ClientesPaginados, page => Url.Action("BuscarClienteParaSeguimiento",
+                            new { page, busquedaCliente = Model.BusquedaActual }),
+                            new PagedListRenderOptions {
+                                LiElementClasses = new string[] { "page-item" },
+                                PageClasses = new string[] { "page-link" },
+                                ContainerDivClasses = new[] { "pagination" },
+                                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                                DisplayLinkToLastPage = PagedListDisplayMode.Never
+                            })
+                    }
+                    else
+                    {
+                        <p style="color:var(--text-muted); margin:0; font-size:0.9rem;">
+                            Mostrando @Model.ClientesPaginados.TotalItemCount resultados.
+                        </p>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="empty-state-container">
+                    <div class="empty-search-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.BusquedaActual))
+                    {
+                        <p>No encontramos clientes que coincidan con "<strong>@Model.BusquedaActual</strong>".</p>
+                    }
+                    else
+                    {
+                        <p>Ingresa un nombre o DNI para comenzar la búsqueda.</p>
+                    }
+                </div>
+            }
+        </div>
+                </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-col footer-info">
+            <div class="footer-logo-container">
+                <div class="footer-logo-icon"><i class="fa-solid fa-paw"></i></div>
+                <h3 class="footer-brand">VetIng</h3>
+            </div>
+            <p class="footer-description">
+                Portal exclusivo para el personal médico. Gestión eficiente de pacientes y turnos.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Navegacion</h4>
+            <ul class="footer-links">
+                <li><a href="/@controllerDestino/PaginaPrincipal">Volver al inicio</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Soporte Técnico</h4>
+            <ul class="footer-links">
+                <li><a href="mailto:admin@veting.com">Contactar Admin</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" style="background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; font-family:inherit; font-size:0.95em; padding:0; text-decoration:underline;">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; @DateTime.Now.Year VetIng Software. Desarrollado por Ulises Sosa y Leonel Gallaretto.</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/menuhamburguesa.js" asp-append-version="true"></script>
+    
+    <script>
+        const burger = document.getElementById('hamburgerBtn');
+        const nav = document.getElementById('navMenu');
+        if(burger && nav){
+            burger.addEventListener('click', () => nav.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+﻿@model SistemaVetIng.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Iniciar Sesión - VetIng";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/portal-theme.css" asp-append-version="true" />
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-card">
+
+        <div class="auth-visual" style="background-image: url('@Url.Content("~/css/Img/form10.jpg")');">
+
+        </div>
+
+        <div class="auth-form-container">
+
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div class="dash-title">
+                    <h1 style="margin-bottom: 10px;">Bienvenido a <span>VetIng</span></h1>
+                </div>
+
+                <p class="auth-subtitle" style="color:var(--text-muted); font-size: 1.1rem;">
+                    Completa tus datos para continuar.
+                </p>
+            </div>
+
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label asp-for="UserName" class="form-label">Usuario / Email</label>
+                    <div style="position:relative;">
+                        <i class="fa-solid fa-user" style="position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--primary-color);"></i>
+                        <input asp-for="UserName" class="form-control" placeholder="nombre@email.com" style="padding-left:40px;" />
+                    </div>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label asp-for="Password" class="form-label">Contraseña</label>
+                    <div style="position:relative;">
+                        <i class="fa-solid fa-lock" style="position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--primary-color);"></i>
+                        <input asp-for="Password" class="form-control" type="password" placeholder="••••••••" style="padding-left:40px;" />
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-register-submit" style="margin-top:20px; width:100%; justify-content:center;">
+                    Ingresar <i class="fa-solid fa-arrow-right-to-bracket" style="margin-left:10px;"></i>
+                </button>
+
+                <div class="auth-footer-links">
+
+                    <p class="auth-text-muted">
+                        ¿Todavía no tienes cuenta? <br>
+                        <a asp-controller="Cliente" asp-action="RegistrarCliente" class="link-animated">
+                            Crear una cuenta nueva
+                        </a>
+                    </p>
+
+                    <a asp-controller="Account" asp-action="RecuperarContraseña" class="link-animated secondary">
+                        <i class="fa-solid fa-key"></i> ¿Olvidaste tu contraseña?
+                    </a>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @await Component.InvokeAsync("NToastNotify")
+</body>
+
+</html>

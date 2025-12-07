@@ -1,0 +1,229 @@
+﻿@model SistemaVetIng.ViewsModels.DashboardViewModel
+@using System.Text.Json;
+@using System.Globalization;
+
+@{
+    ViewData["Title"] = "Dashboard Analítico - VetIng";
+    Layout = null;
+    var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/portal-theme.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header class="main-header">
+        <a href="/Veterinaria/PaginaPrincipal" class="logo">
+            <i class="fa-solid fa-paw"></i> VetIng
+        </a>
+        <nav class="main-nav">
+            <ul class="nav-list" id="navMenu">
+                <li><a class="nav-link" href="/Veterinaria/PaginaPrincipal">Volver al Panel Principal</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> Salir
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <div class="hamburger-menu" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <div class="dash-hero">
+            <div class="dash-title">
+                <h1>Dashboard <span>Analítico</span></h1>
+                <p class="dash-subtitle">Visualización estratégica de datos y métricas de rendimiento.</p>
+            </div>
+        </div>
+
+        <section class="stats-grid" style="margin-bottom: 40px;">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-notes-medical"></i></div>
+                <div class="stat-value">@Model.TotalAtencionesRealizadas</div>
+                <div class="stat-label">Atenciones Históricas</div>
+            </div>
+
+            <div class="stat-card">
+                @{
+                    string colorSemaforo = "#22c55e"; 
+                    if (Model.EstadoSemaforoAusencia?.ToLower() == "rojo") colorSemaforo = "#ef4444";
+                    else if (Model.EstadoSemaforoAusencia?.ToLower() == "amarillo") colorSemaforo = "#eab308";
+                }
+                <div class="stat-icon" style="color: @colorSemaforo; background: rgba(255,255,255,0.05);">
+                    <i class="fa-solid fa-user-slash"></i>
+                </div>
+                <div class="stat-value">@($"{Model.PorcentajeAusencia.ToString("N1")}%")</div>
+                <div class="stat-label">Tasa de Ausentismo</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-green"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="stat-value">@Model.TotalCantidadDeTurnos</div>
+                <div class="stat-label">Turnos Totales</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-coral"><i class="fa-solid fa-star"></i></div>
+                <div class="stat-value" style="font-size:1.3rem;">
+                    @(Model.ClienteMasFrecuente != null ? $"{Model.ClienteMasFrecuente.Nombre} {Model.ClienteMasFrecuente.Apellido}" : "N/A")
+                </div>
+                <div class="stat-label">Cliente Más Frecuente</div>
+            </div>
+        </section>
+
+        <section class="dash-grid-2-1">
+            <div class="chart-box">
+                <div class="chart-box-header">
+                    <h3 class="chart-box-title" id="ingresosDrillDownTitle">Rendimiento de Ingresos: Visión Anual</h3>
+                    <button id="ingresosDrillUpButton" class="btn btn-outline btn-sm" style="display:none;">
+                        <i class="fa-solid fa-arrow-up"></i> Volver
+                    </button>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="chartIngresosMensuales"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <div class="chart-box-header">
+                    <h3 class="chart-box-title">Servicios Más Solicitados</h3>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="chartServicios"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="dash-grid-2-1">
+            <div class="chart-box">
+                <div class="chart-box-header">
+                    <h3 class="chart-box-title" id="drillDownTitle">Distribución de Turnos por Estado</h3>
+                    <button id="drillUpButton" class="btn btn-outline btn-sm" style="display:none;">
+                        <i class="fa-solid fa-arrow-up"></i> Volver
+                    </button>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="chartRendimiento"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <div class="chart-box-header">
+                    <h3 class="chart-box-title">Distribución por Especie</h3>
+                </div>
+                <div class="chart-canvas-wrapper" style="min-height: 250px; flex-grow: 0;">
+                    <canvas id="chartEspecies"></canvas>
+                </div>
+
+                <div class="chart-detail-list">
+                    <h4 style="font-size:0.9rem; color:var(--text-muted); margin-bottom:10px;">Detalle de Razas:</h4>
+                    <div id="drillDownRazas">
+                        <p style="color:white" class="text-muted small">Seleccione una especie en el gráfico.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon icon-green"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                <div class="stat-value">@Model.TotalIngresosHistoricos.ToString("C0", new CultureInfo("es-AR"))</div>
+                <div class="stat-label">Ingreso Histórico Total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                <div class="stat-value">@Model.IngresoPromedioPorAtencion.ToString("C0", new CultureInfo("es-AR"))</div>
+                <div class="stat-label">Ticket Promedio / Atención</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon icon-coral"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="stat-value">@Model.PerrosPeligrosos</div>
+                <div class="stat-label">Perros Peligrosos Registrados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-microchip"></i></div>
+                <div class="stat-value">@Model.MascotasConChipCount <span style="font-size:0.8rem; color:var(--text-muted);">/ @Model.TotalMascotas</span></div>
+                <div class="stat-label">Mascotas con Chip</div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-col footer-info">
+            <div class="footer-logo-container">
+                <div class="footer-logo-icon"><i class="fa-solid fa-paw"></i></div>
+                <h3 class="footer-brand">VetIng</h3>
+            </div>
+            <p class="footer-description">
+                Portal exclusivo para el personal médico. Gestión eficiente de pacientes y turnos.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Navegacion</h4>
+            <ul class="footer-links">
+                <li><a href="/Veterinaria/PaginaPrincipal">Volver al inicio</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Soporte Técnico</h4>
+            <ul class="footer-links">
+                <li><a href="mailto:admin@veting.com">Contactar Admin</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" style="background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; font-family:inherit; font-size:0.95em; padding:0; text-decoration:underline;">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; @DateTime.Now.Year VetIng Software. Desarrollado por Ulises Sosa y Leonel Gallaretto.</p>
+        </div>
+    </footer>
+
+    <script>
+        const initialTurnosStatusData = {
+            totalTurnosPendientes: @Model.TotalTurnosPendientes,
+            totalTurnosFinalizados: @Model.TotalTurnosFinalizados,
+            totalTurnosCancelados: @Model.TotalTurnosCancelados,
+            totalTurnosNoAsistio: @Model.TotalTurnosNoAsistio
+        };
+        const initialAtencionesVetData = @Html.Raw(JsonSerializer.Serialize(Model.AtencionesPorVeterinario, jsonOptions));
+        const initialServiciosData = @Html.Raw(JsonSerializer.Serialize(Model.TopServicios, jsonOptions));
+        const initialEspeciesData = @Html.Raw(JsonSerializer.Serialize(Model.DistribucionEspecies, jsonOptions));
+        const initialIngresosAnualesData = @Html.Raw(JsonSerializer.Serialize(Model.IngresosAnuales, jsonOptions));
+    </script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+    <script src="~/js/menuhamburguesa.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("NToastNotify")
+
+    <script>
+        const burger = document.getElementById('hamburgerBtn');
+        const nav = document.getElementById('navMenu');
+        if(burger && nav){
+            burger.addEventListener('click', () => nav.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

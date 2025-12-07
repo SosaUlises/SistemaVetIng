@@ -1,0 +1,222 @@
+﻿@model ManageUserRolesPageViewModel
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Gestión de Roles - VetIng";
+    Layout = null;
+    string controllerDestino = User.IsInRole("Veterinario") ? "Veterinario" : "Veterinaria";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/portal-theme.css" asp-append-version="true" />
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="/@controllerDestino/PaginaPrincipal" class="logo">
+            <i class="fa-solid fa-paw"></i> VetIng
+        </a>
+        <nav class="main-nav">
+            <ul class="nav-list" id="navMenu">
+                <li><a class="nav-link" href="/@controllerDestino/PaginaPrincipal">Volver al Panel</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> Salir
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <div class="hamburger-menu" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <div class="dash-hero">
+            <div class="dash-title">
+                <h1>Roles por <span>Usuario</span></h1>
+                <p class="dash-subtitle">Asigna o revoca roles de seguridad para los usuarios del sistema.</p>
+            </div>
+        </div>
+
+        <div class="filter-bar-container">
+            <form asp-action="GestionRolesUsuario" method="get" style="width:100%; display:flex; align-items:center; gap:20px;">
+                <label for="userSelect" class="filter-label">
+                    <i class="fa-solid fa-user-tag"></i> Seleccionar Usuario:
+                </label>
+
+                <div class="filter-select-wrapper">
+                    <select asp-for="SelectedUserId" asp-items="Model.UsersList" class="form-control" id="userSelect" onchange="this.form.submit();">
+                        <option value="">-- Selecciona un usuario --</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        @if (Model.RolesForm != null && Model.RolesForm.Roles.Any())
+        {
+            <section class="list-container">
+
+                <div class="v1-card-header" style="padding: 0; border-bottom: 1px solid var(--border-light);">
+                    <div class="user-permission-header">
+                        <div class="user-permission-avatar">
+                            @{
+                                var iniciales = "U";
+                                var nombreCompleto = Model.RolesForm.UserFullName ?? Model.RolesForm.UserName;
+
+                                if (!string.IsNullOrEmpty(nombreCompleto))
+                                {
+                                    var partes = nombreCompleto.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                    if (partes.Length >= 2) { iniciales = $"{partes[0][0]}{partes[1][0]}"; }
+                                    else if (partes.Length == 1) { iniciales = partes[0].Substring(0, 1); }
+                                }
+                            }
+                            @iniciales.ToUpper()
+                        </div>
+
+                        <div class="user-permission-info">
+                            <h3>@(Model.RolesForm.UserFullName ?? "Usuario Sin Nombre")</h3>
+
+                            <div class="user-permission-meta">
+                                <span>
+                                    <i class="fa-solid fa-envelope" style="color:var(--primary-color);"></i>
+                                    @Model.RolesForm.UserName
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-id-badge" style="color:var(--secondary-color);"></i>
+                                    Rol Actual: <span class="role-badge-info">@(Model.RolesForm.UserRole ?? "Sin Rol")</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-action="GestionRolesUsuario" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="RolesForm.UserId" />
+                    <input type="hidden" asp-for="RolesForm.UserName" />
+
+                    <div class="v1-card-content">
+                        <div class="table-responsive">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Rol de Sistema</th>
+                                        <th class="text-center" style="width: 150px;">Asignado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.RolesForm.Roles.Count; i++)
+                                    {
+                                        <tr>
+                                            <td data-label="Rol">
+                                                <input type="hidden" asp-for="RolesForm.Roles[i].RoleId" />
+                                                <input type="hidden" asp-for="RolesForm.Roles[i].RoleName" />
+
+                                                <span class="role-tag">
+                                                    @Model.RolesForm.Roles[i].RoleName
+                                                </span>
+                                            </td>
+
+                                            <td data-label="Estado" class="text-center">
+                                                <label class="toggle-switch">
+                                                    <input type="checkbox"
+                                                           asp-for="RolesForm.Roles[i].IsSelected"
+                                                           class="role-checkbox"
+                                                           data-role-name="@Model.RolesForm.Roles[i].RoleName" />
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="form-actions" style="padding:30px; display:flex; justify-content:flex-end; border-top:1px solid var(--border-light);">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-save"></i> Guardar Roles
+                        </button>
+                    </div>
+                </form>
+            </section>
+        }
+        else if (!string.IsNullOrEmpty(Model.SelectedUserId))
+        {
+            <div class="empty-state-container">
+                <i class="fa-solid fa-triangle-exclamation empty-icon"></i>
+                <p>No se pudieron cargar los roles para el usuario seleccionado.</p>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state-container">
+                <i class="fa-solid fa-arrow-pointer empty-icon"></i>
+                <p>Por favor, selecciona un usuario arriba para comenzar.</p>
+            </div>
+        }
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-col footer-info">
+            <div class="footer-logo-container">
+                <div class="footer-logo-icon"><i class="fa-solid fa-paw"></i></div>
+                <h3 class="footer-brand">VetIng</h3>
+            </div>
+            <p class="footer-description">
+                Portal exclusivo para el personal médico. Gestión eficiente de pacientes y turnos.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Navegacion</h4>
+            <ul class="footer-links">
+                <li><a href="/@controllerDestino/PaginaPrincipal">Volver al inicio</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Soporte Técnico</h4>
+            <ul class="footer-links">
+                <li><a href="mailto:admin@veting.com">Contactar Admin</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" style="background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; font-family:inherit; font-size:0.95em; padding:0; text-decoration:underline;">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; @DateTime.Now.Year VetIng Software. Desarrollado por Ulises Sosa y Leonel Gallaretto.</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/menuhamburguesa.js" asp-append-version="true"></script>
+    <script src="~/js/roles.js" asp-append-version="true"></script> 
+    @await Component.InvokeAsync("NToastNotify")
+
+    <script>
+        const burger = document.getElementById('hamburgerBtn');
+        const nav = document.getElementById('navMenu');
+        if(burger && nav){
+            burger.addEventListener('click', () => nav.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+﻿@model SistemaVetIng.Models.Cliente
+
+@{
+    ViewData["Title"] = $"Mascotas de {Model.Nombre} {Model.Apellido}";
+    Layout = null;
+
+    string controllerDestino = User.IsInRole("Veterinario") ? "Veterinario" : "Veterinaria";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/portal-theme.css" asp-append-version="true" />
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="../@controllerDestino/PaginaPrincipal" class="logo">
+            <i class="fa-solid fa-paw"></i> VetIng
+        </a>
+        <nav class="main-nav">
+            <ul class="nav-list" id="navMenu">
+                <li><a class="nav-link" href="../@controllerDestino/PaginaPrincipal">Volver al Panel</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> Salir
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <div class="hamburger-menu" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <main class="main-content">
+        
+        <section class="dash-hero dash-hero--center">
+            <div class="dash-title margin-bottom">
+                <h1>Mascotas de <span>@Model.Nombre @Model.Apellido</span></h1>
+                <p class="dash-subtitle">Selecciona una mascota para acceder a su historial clínico detallado.</p>
+            </div>
+
+
+        <div class="list-container">
+            @if (Model.Mascotas != null && Model.Mascotas.Any())
+            {
+               <div class="table-responsive">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th class="text-center">Especie</th>
+                <th class="text-center">Raza</th>
+                <th class="text-center">Sexo</th>
+                <th class="text-center">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var mascota in Model.Mascotas)
+            {
+                <tr>
+                    <td data-label="Nombre" class="text-center">
+                        <div class="d-flex align-center gap-15">
+                            <div class="pet-icon-circle">
+                                @if (mascota.Especie.ToLower().Contains("canino") || mascota.Especie.ToLower().Contains("perro")) {
+                                    <i class="fa-solid fa-dog"></i>
+                                } else if (mascota.Especie.ToLower().Contains("felino") || mascota.Especie.ToLower().Contains("gato")) {
+                                    <i class="fa-solid fa-cat"></i>
+                                } else {
+                                    <i class="fa-solid fa-paw"></i>
+                                }
+                            </div>
+                            <span class="text-name">@mascota.Nombre</span>
+                        </div>
+                    </td>
+                    
+
+                        <td data-label="Especie" class="text-center">
+                          <span class="text-muted">@mascota.Especie</span>
+                    </td>
+
+                    <td data-label="Raza" class="text-center">
+                        <span class="text-muted">@mascota.Raza</span>
+                    </td>
+                    
+
+                    
+                    <td data-label="Sexo" class="text-center">
+                        @if(mascota.Sexo == "Macho") {
+                            <i class="fa-solid fa-mars" style="color:#60a5fa; margin-right:5px;"></i> <span>Macho</span>
+                        } else {
+                            <i class="fa-solid fa-venus" style="color:#f472b6; margin-right:5px;"></i> <span>Hembra</span>
+                        }
+                    </td>
+                    
+                    <td data-label="Acción" class="text-center">
+                        <a asp-action="DetalleHistoriaClinica" asp-route-mascotaId="@mascota.Id" class="btn-action-table">
+                            <i class="fas fa-file-medical"></i> Historia Clínica
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+            }
+            else
+            {
+                <div class="empty-state-container">
+                    <div class="empty-search-icon">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <p>Este cliente no tiene mascotas registradas.</p>
+                </div>
+            }
+        </div>
+             </section>
+    </main>
+
+  <footer class="main-footer">
+        <div class="footer-col footer-info">
+            <div class="footer-logo-container">
+                <div class="footer-logo-icon"><i class="fa-solid fa-paw"></i></div>
+                <h3 class="footer-brand">VetIng</h3>
+            </div>
+            <p class="footer-description">
+                Portal exclusivo para el personal médico. Gestión eficiente de pacientes y turnos.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Navegacion</h4>
+            <ul class="footer-links">
+                <li><a href="/@controllerDestino/PaginaPrincipal">Volver al inicio</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Soporte Técnico</h4>
+            <ul class="footer-links">
+                <li><a href="mailto:admin@veting.com">Contactar Admin</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" style="background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; font-family:inherit; font-size:0.95em; padding:0; text-decoration:underline;">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; @DateTime.Now.Year VetIng Software. Desarrollado por Ulises Sosa y Leonel Gallaretto.</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/menuhamburguesa.js" asp-append-version="true"></script>
+    
+    <script>
+        const burger = document.getElementById('hamburgerBtn');
+        const nav = document.getElementById('navMenu');
+        if(burger && nav){
+            burger.addEventListener('click', () => nav.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,572 @@
+﻿@using X.PagedList.Mvc.Core
+@model SistemaVetIng.ViewsModels.VeterinariaPaginaPrincipalViewModel
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using SistemaVetIng.Models.Extension
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Panel de Administración - VetIng";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/portal-theme.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header class="main-header">
+        <a href="/Veterinaria/PaginaPrincipal" class="logo">
+            <i class="fa-solid fa-paw"></i> VetIng
+        </a>
+
+        <nav class="main-nav">
+            <ul class="nav-list" id="navMenu">
+                <li><a class="nav-link" asp-controller="Perfil" asp-action="Index">Perfil</a></li>
+                <li><a class="nav-link" href="#resumen">Resumen</a></li>
+                <li><a class="nav-link" href="#gestion">Gestión</a></li>
+                <li><a class="nav-link" href="#turnos">Agenda</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> Salir
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="hamburger-menu" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <section class="dash-hero">
+            <div class="dash-title">
+                <h1>Panel de <span>Administración</span></h1>
+                <p class="dash-subtitle">Control total de la clínica, gestión de personal y reportes financieros.</p>
+            </div>
+            
+            <div class="dash-actions">
+               
+                
+                <a asp-controller="Dashboard" asp-action="Dashboard" class="btn btn-outline">
+                    <i class="fa-solid fa-chart-pie"></i> Ver Reportes
+                </a>
+            </div>
+        </section>
+
+        <section id="resumen" class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                <div class="stat-value">@Model.CantidadCitasHoy</div>
+                <div class="stat-label">Citas Hoy</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon icon-green"><i class="fa-solid fa-users"></i></div>
+                <div class="stat-value">@Model.CantidadClientesActivos</div>
+                <div class="stat-label">Clientes Activos</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon icon-coral"><i class="fa-solid fa-paw"></i></div>
+                <div class="stat-value">@Model.CantidadMascotasRegistradas</div>
+                <div class="stat-label">Mascotas</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                <div class="stat-value">$ @Model.IngresosMensuales.ToString("N0")</div>
+                <div class="stat-label">Facturación (@DateTime.Now.ToString("MMMM"))</div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2 class="section-heading">Métricas Clave</h2>
+            </div>
+            
+            <div class="reports-grid">
+                <div class="report-card report-dog">
+                    <div class="stat-icon icon-coral" style="margin:0 auto;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="report-value">@Model.CantidadPerrosPeligrosos</div>
+                    <div class="report-label">Perros Peligrosos</div>
+                </div>
+
+                <div class="report-card report-chart">
+                    <div class="stat-icon" style="margin:0 auto;"><i class="fa-solid fa-syringe"></i></div>
+                    <div class="report-value" style="font-size:1.5rem;">@Model.VacunaMasFrecuenteNombre</div>
+                    <div class="report-label">Vacuna Top</div>
+                </div>
+
+                <div class="report-card report-money">
+                    <div class="stat-icon icon-green" style="margin:0 auto;"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div class="report-value" style="font-size:1.5rem;">@Model.EstudioMasSolicitadoNombre</div>
+                    <div class="report-label">Estudio Top (@((Model.PrecioEstudioMasSolicitado ?? 0).ToString("C0")))</div>
+                </div>
+            </div>
+        </section>
+
+      
+            <section id="gestion" style="margin-bottom: 50px;">
+                <div class="section-header">
+                    <h2 class="section-heading">Administración del Sistema</h2>
+                </div>
+                
+                <div class="list-container" style="padding:30px; display:flex; gap:20px; flex-wrap:wrap; justify-content:center;">
+                   
+                        <a asp-controller="Veterinaria" asp-action="GestionPermissions" class="btn btn-outline">
+                            <i class="fa-solid fa-shield-halved"></i> Permisos de Roles
+                        </a>
+                   
+                  
+                        <a asp-controller="Veterinaria" asp-action="GestionPermissionsUsuario" class="btn btn-outline">
+                            <i class="fa-solid fa-users-cog"></i> Gestionar Usuarios
+                        </a>
+                    
+                  
+                        <a asp-controller="Veterinaria" asp-action="GestionRolesUsuario" class="btn btn-outline">
+                            <i class="fa-solid fa-user-shield"></i> Gestionar Roles
+                        </a>
+                    
+                </div>
+            </section>
+        
+
+             
+    <section id="horarios" class="mb-50">
+        <div class="section-header">
+            <h2 class="section-heading">Horarios de Atención</h2>
+           
+                <a asp-controller="Veterinaria" asp-action="GuardarConfiguracion" class="btn btn-primary btn-sm">
+                    <i class="fas fa-cog"></i> Configurar
+                </a>
+           
+        </div>
+
+        <div class="list-container">
+            @if (Model.ConfiguracionTurnos != null && Model.ConfiguracionTurnos.Horarios.Any())
+            {
+                <div class="config-info-header">
+                    <i class="fa-regular fa-clock config-icon"></i> 
+                    <span>
+                        <strong>Duración consulta:</strong> @Model.ConfiguracionTurnos.DuracionMinutosPorConsulta minutos
+                    </span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="custom-table">
+                       <tbody>
+                         @foreach (var dia in Model.ConfiguracionTurnos.Horarios)
+                        {
+                          <tr class="@(dia.EstaActivo ? "" : "row-closed")">
+            
+                           <td data-label="Día" style="text-transform:capitalize; font-weight:600; font-size:1.1rem; color:white;">
+                           @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(dia.DiaSemana)
+                           </td>
+            
+                            <td data-label="Estado" class="text-center">
+                     @if (dia.EstaActivo)
+                {
+                    <span class="status-active">Abierto</span>
+                }
+                else
+                {
+                    <span class="status-closed">Cerrado</span>
+                }
+            </td>
+            
+            <td data-label="Horario" class="text-center">
+                @if (dia.EstaActivo && dia.HoraInicio != DateTime.MinValue)
+                {
+                    <span class="time-display">
+                        @dia.HoraInicio.ToString("HH:mm") - @dia.HoraFin.ToString("HH:mm")
+                    </span>
+                }
+                else
+                {
+                    <span class="time-empty" style="font-size:1.5rem;">&mdash;</span> }
+            </td>
+        </tr>
+    }
+</tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="empty-state-container">
+                    <p>Horarios no configurados.</p>
+                </div>
+            }
+        </div>
+    </section>
+
+
+      
+            <section id="turnos">
+                <div class="section-header">
+                    <h2 class="section-heading">Agenda del Día</h2>
+                    <div style="display:flex; gap:10px;">
+                         <a asp-controller="Turno" asp-action="TurnosPorDiaSeleccionado" class="btn btn-outline btn-sm">
+                            <i class="fa-solid fa-calendar-week"></i> Agenda Completa
+                        </a>
+                    </div>
+                </div>
+
+                <div class="list-container">
+                    @if (Model.CitasDeHoy.Any())
+                    {
+                        foreach (var turno in Model.CitasDeHoy)
+                        {
+                            <div class="list-item">
+                                <div style="display:flex; align-items:center; gap:20px;">
+                                    <div class="time-block">
+                                        <div class="time-hour">@turno.Horario.ToString(@"hh\:mm")</div>
+                                        <div class="time-label">HS</div>
+                                    </div>
+
+                                    <div class="item-info">
+                                        <div class="appointment-title">
+                                            @(turno.NombreMascota ?? "Primera Cita")
+                                            @if (turno.PrimeraCita) { <span class="badge-new">Nueva</span> }
+                                        </div>
+                                        <div class="appointment-meta">
+                                            <i class="fa-solid fa-user" style="color:var(--primary-color);"></i> @turno.NombreCliente
+                                            &nbsp;|&nbsp; @(string.IsNullOrWhiteSpace(turno.Motivo) ? "Sin motivo" : turno.Motivo)
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <span class="badge @(turno.Estado == "Finalizado" ? "badge-success" : (turno.Estado == "Pendiente" ? "badge-pending" : "badge-error"))">
+                                        @turno.Estado
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state-container">
+                            <p>No hay turnos para hoy.</p>
+                        </div>
+                    }
+                </div>
+            </section>
+
+
+        <section id="veterinarios">
+            <div class="section-header">
+                <h2 class="section-heading">Gestión de Veterinarios</h2>
+                <div style="display:flex; gap:10px;">
+                    <a asp-controller="Veterinario" asp-action="RegistrarVeterinario" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-plus"></i> Nuevo Veterinario
+                    </a>
+                    <form asp-controller="Veterinaria" asp-action="PaginaPrincipal" method="get" class="search-box">
+                        <i class="fa-solid fa-search search-icon"></i>
+                        <input type="text" name="busquedaVeterinario" class="search-input" placeholder="Buscar..." value="@Context.Request.Query["busquedaVeterinario"]" />
+                    </form>
+                </div>
+            </div>
+
+            <div class="list-container">
+                @if (Model.Veterinarios != null && Model.Veterinarios.Any())
+                {
+                    @foreach (var vet in Model.Veterinarios)
+                    {
+                        <div class="list-item">
+                            <div style="display:flex; align-items:center; gap:15px;">
+                                <div class="avatar-circle" style="background:rgba(255,255,255,0.1); color:white;">
+                                    @(vet.NombreCompleto.Split(' ').FirstOrDefault()?.FirstOrDefault())@(vet.NombreCompleto.Split(' ').LastOrDefault()?.FirstOrDefault())
+                                </div>
+                                <div class="item-info">
+                                    <h4>Dr. @vet.NombreCompleto</h4>
+                                    <p>Matrícula: @vet.Matricula &bull; <i class="fa-solid fa-phone icon-text"></i> @vet.Telefono</p>
+                                </div>
+                            </div>
+                            
+                            <div style="display:flex; gap:10px;">
+                                <a asp-controller="Veterinario" asp-action="ModificarVeterinario" asp-route-id="@vet.Id" class="btn btn-outline btn-sm">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <form asp-controller="Veterinario" asp-action="EliminarVeterinario" asp-route-id="@vet.Id" method="post" onsubmit="return confirm('¿Eliminar?');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline btn-sm trash" style="border-color:var(--error-color); color:var(--error-color);">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="empty-state-container">
+                        <p>No se encontraron veterinarios.</p>
+                    </div>
+                }
+                
+                <div class="pagination-wrapper">
+                    @if (Model.PaginacionVeterinarios != null && Model.PaginacionVeterinarios.PageCount > 1)
+                    {
+                        @Html.PagedListPager(Model.PaginacionVeterinarios, pageVet => Url.Action("PaginaPrincipal", "Veterinaria",
+                            new { pageVet, busquedaVeterinario = Context.Request.Query["busquedaVeterinario"] }),
+                            new PagedListRenderOptions {
+                                LiElementClasses = new string[] { "page-item" },
+                                PageClasses = new string[] { "page-link" },
+                                ContainerDivClasses = new[] { "pagination" },
+                                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                                DisplayLinkToLastPage = PagedListDisplayMode.Never
+                            })
+                    }
+                </div>
+            </div>
+        </section>
+        
+        <section id="clientes">
+             <div class="section-header">
+                <h2 class="section-heading">Gestión de Clientes</h2>
+                 <div style="display:flex; gap:10px;">
+                     <a asp-controller="Cliente" asp-action="RegistrarCliente" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-plus"></i> Nuevo
+                    </a>
+                    <form asp-controller="Veterinaria" asp-action="PaginaPrincipal" method="get" class="search-box">
+                        <i class="fa-solid fa-search search-icon"></i>
+                        <input type="text" name="busquedaCliente" class="search-input" placeholder="Buscar cliente..." value="@Context.Request.Query["busquedaCliente"]" />
+                    </form>
+                </div>
+            </div>
+            
+            <div class="list-container">
+                @if (Model.Clientes != null && Model.Clientes.Any())
+                {
+                    foreach (var cliente in Model.Clientes)
+                    {
+                        <div class="list-item">
+                            <div style="display:flex; align-items:center; gap:15px;">
+                                <div class="avatar-circle">
+                                    @(cliente.NombreCompleto.Split(' ').FirstOrDefault()?.FirstOrDefault())@(cliente.NombreCompleto.Split(' ').LastOrDefault()?.FirstOrDefault())
+                                </div>
+                                <div class="item-info">
+                                    <h4>@cliente.NombreCompleto</h4>
+                                    <p>DNI: @cliente.DNI &bull; <i class="fa-solid fa-phone icon-text"></i> @cliente.Telefono</p>
+                                </div>
+                            </div>
+                            <div style="display:flex; gap:10px;">
+                                <a asp-controller="Cliente" asp-action="ModificarCliente" asp-route-id="@cliente.Id" class="btn btn-outline btn-sm"><i class="fa-solid fa-edit"></i></a>
+                            
+                                  <form asp-controller="Cliente" asp-action="EliminarCliente" asp-route-id="@cliente.Id" method="post" onsubmit="return confirm('¿Eliminar cliente?');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline btn-sm trash" style="border-color:var(--error-color); color:var(--error-color);" title="Eliminar">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                }
+                else 
+                {
+                     <div class="empty-state-container"><p>No hay clientes.</p></div>
+                }
+                
+                <div class="pagination-wrapper">
+                    @if (Model.PaginacionClientes != null && Model.PaginacionClientes.PageCount > 1)
+                    {
+                        @Html.PagedListPager(Model.PaginacionClientes, page => Url.Action("PaginaPrincipal", "Veterinaria",
+                            new { page, busquedaCliente = Context.Request.Query["busquedaCliente"] }),
+                            new PagedListRenderOptions {
+                                LiElementClasses = new string[] { "page-item" },
+                                PageClasses = new string[] { "page-link" },
+                                ContainerDivClasses = new[] { "pagination" },
+                                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                                DisplayLinkToLastPage = PagedListDisplayMode.Never
+                            })
+                    }
+                </div>
+            </div>
+        </section>
+
+         <section id="mascotas" class="mb-50">
+        <div class="section-header">
+            <h2 class="section-heading">Registro de Mascotas</h2>
+            
+            <div class="d-flex gap-10">
+               
+                    <a asp-controller="Mascota" asp-action="RegistrarMascota" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-plus"></i> Nueva
+                    </a>
+        
+                
+                <form asp-controller="Veterinaria" asp-action="PaginaPrincipal" method="get" class="search-box">
+                    <i class="fa-solid fa-search search-icon"></i>
+                    <input type="text" name="busquedaMascota" class="search-input" placeholder="Buscar mascota..." value="@Context.Request.Query["busquedaMascota"]" />
+                </form>
+            </div>
+        </div>
+
+        <div class="list-container">
+            @if (Model.Mascotas != null && Model.Mascotas.Any())
+            {
+                foreach (var mascota in Model.Mascotas)
+                {
+                    <div class="list-item">
+                        <div class="d-flex align-center gap-15">
+                            <div class="pet-icon-circle">
+                                @if (mascota.Especie.ToLower().Contains("canino") || mascota.Especie.ToLower().Contains("perro")) {
+                                    <i class="fa-solid fa-dog"></i>
+                                } else if (mascota.Especie.ToLower().Contains("felino") || mascota.Especie.ToLower().Contains("gato")) {
+                                    <i class="fa-solid fa-cat"></i>
+                                } else {
+                                    <i class="fa-solid fa-paw"></i>
+                                }
+                            </div>
+                            
+                            <div class="item-info">
+                                <h4>@mascota.NombreMascota</h4>
+                                <p>@mascota.Raza (@mascota.Sexo) &bull; Dueño: @mascota.NombreDueno</p>
+                            </div>
+                        </div>
+
+                        <div class="actions-container">
+                          <a asp-controller="HistoriaClinica" asp-action="DetalleHistoriaClinica" asp-route-mascotaId="@mascota.Id" class="btn btn-outline-green btn-sm" title="Historia Clínica">
+                          <i class="fa-solid fa-file-medical"></i>
+                          </a>
+                            
+
+       
+                                <a asp-controller="Mascota" asp-action="ModificarMascota" asp-route-id="@mascota.Id" class="btn btn-outline btn-sm" title="Editar">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                           
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-state-container">
+                    <p>
+                        @if (!string.IsNullOrEmpty(Context.Request.Query["busquedaMascota"]))
+                        {
+                            <span>No se encontraron mascotas para "@Context.Request.Query["busquedaMascota"]".</span>
+                        }
+                        else
+                        {
+                            <span>No hay mascotas registradas.</span>
+                        }
+                    </p>
+                </div>
+            }
+
+            <div class="pagination-wrapper">
+                @if (Model.PaginacionMascotas != null && Model.PaginacionMascotas.PageCount > 1)
+                {
+                    @Html.PagedListPager(Model.PaginacionMascotas, pageMascota => Url.Action("PaginaPrincipal", "Veterinaria",
+                        new { 
+                            page = Context.Request.Query["page"], 
+                            busquedaCliente = Context.Request.Query["busquedaCliente"],
+                            pageMascota,
+                            busquedaMascota = Context.Request.Query["busquedaMascota"] 
+                        }),
+                        new PagedListRenderOptions {
+                            LiElementClasses = new string[] { "page-item" },
+                            PageClasses = new string[] { "page-link" },
+                            ContainerDivClasses = new[] { "pagination" },
+                            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                            DisplayLinkToLastPage = PagedListDisplayMode.Never
+                        })
+                }
+                else if(Model.PaginacionMascotas != null)
+                {
+                     <p class="text-muted text-center" style="margin:0;color:white; font-size:0.9rem;">
+                        Mostrando @Model.PaginacionMascotas.TotalItemCount @(Model.PaginacionMascotas.TotalItemCount == 1 ? "mascota" : "mascotas")
+                     </p>
+                }
+            </div>
+        </div>
+    </section>
+
+        <section id="catalogos" class="catalogs-grid">
+            <div class="stat-card catalog-card">
+                <div class="stat-icon"><i class="fa-solid fa-syringe"></i></div>
+                <h3 class="catalog-title">Vacunas</h3>
+                <a asp-controller="Vacuna" asp-action="Index" class="btn btn-outline btn-sm">Gestionar</a>
+            </div>
+            <div class="stat-card catalog-card">
+                <div class="stat-icon icon-green"><i class="fa-solid fa-microscope"></i></div>
+                <h3 class="catalog-title">Estudios</h3>
+                <a asp-controller="Estudio" asp-action="Index" class="btn btn-outline btn-sm">Gestionar</a>
+            </div>
+            <div class="stat-card catalog-card">
+                <div class="stat-icon icon-coral"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3 class="catalog-title">Auditoría</h3>
+                <a asp-controller="Auditoria" asp-action="Index" class="btn btn-outline btn-sm">Ver Registros</a>
+            </div>
+        </section>
+
+    </main>
+
+   <footer class="main-footer">
+        <div class="footer-col footer-info">
+            <div class="footer-logo-container">
+                <div class="footer-logo-icon"><i class="fa-solid fa-paw"></i></div>
+                <h3 class="footer-brand">VetIng</h3>
+            </div>
+            <p class="footer-description">
+                Portal exclusivo para el personal médico. Gestión eficiente de pacientes y turnos.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Herramientas</h4>
+            <ul class="footer-links">
+                <li><a href="/Veterinaria/PaginaPrincipal">Agenda del Día</a></li>
+                <li><a href="/Veterinaria/PaginaPrincipal">Reportes</a></li>
+                <li><a href="/Veterinaria/PaginaPrincipal">Configuracion Horaria</a></li>
+                <li><a href="/Veterinaria/PaginaPrincipal">Pacientes</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Soporte Técnico</h4>
+            <ul class="footer-links">
+                <li><a href="mailto:admin@veting.com">Contactar Admin</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" style="background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; font-family:inherit; font-size:0.95em; padding:0; text-decoration:underline;">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; @DateTime.Now.Year VetIng Software. Desarrollado por Ulises Sosa y Leonel Gallaretto.</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/menuhamburguesa.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("NToastNotify")
+    
+    <script>
+        const burger = document.getElementById('hamburgerBtn');
+        const nav = document.getElementById('navMenu');
+        if(burger && nav){
+            burger.addEventListener('click', () => nav.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

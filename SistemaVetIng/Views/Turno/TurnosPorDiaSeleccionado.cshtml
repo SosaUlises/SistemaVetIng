@@ -1,0 +1,278 @@
+﻿@using System.Globalization
+@model SistemaVetIng.ViewsModels.TurnosPorDiaViewModel
+
+@{
+    ViewData["Title"] = "Historial de Turnos - VetIng";
+    Layout = null;
+
+    string controllerDestino = User.IsInRole("Veterinario") ? "Veterinario" : "Veterinaria";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+
+    <link rel="stylesheet" href="~/css/portal-theme.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header class="main-header">
+        <a href="/@controllerDestino/PaginaPrincipal" class="logo">
+            <i class="fas fa-paw"></i> VetIng
+        </a>
+        <nav class="main-nav">
+            <ul class="nav-list" id="navMenu">
+                <li><a class="nav-link" href="/@controllerDestino/PaginaPrincipal">Volver al Inicio</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> Salir
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <div class="hamburger-menu" id="hamburgerBtn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <div class="dash-hero">
+            <div class="dash-title">
+                <h1>Agenda <span>Diaria</span></h1>
+                <p class="dash-subtitle">Visualiza y gestiona todos los turnos programados.</p>
+            </div>
+        </div>
+
+        <section>
+            <div class="date-filter-card">
+                <form asp-action="TurnosPorDiaSeleccionado" method="get" class="date-filter-group" id="formFiltroFecha">
+
+                    <label asp-for="FechaSeleccionada" class="filter-label">
+                        <i class="fa-regular fa-calendar-days"></i> Fecha:
+                    </label>
+
+                    <input type="text" asp-for="FechaSeleccionada" id="filtroFecha"
+                           class="form-control calendar-input-fix"
+                           style="width:200px; text-align:center;"
+                           readonly="readonly" />
+                </form>
+
+                <div class="date-display-text">
+                    Mostrando: <strong>@Model.FechaSeleccionada.ToString("dddd, dd 'de' MMMM", new CultureInfo("es-AR"))</strong>
+                </div>
+            </div>
+
+            <div class="list-container">
+                @if (Model.TurnosDelDia.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Hora</th>
+                                    <th>Cliente</th>
+                                    <th>Mascota</th>
+                                    <th>Motivo</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var turno in Model.TurnosDelDia)
+                                {
+                                    <tr>
+                                        <td data-label="Hora" class="text-center">
+                                            <span class="time-display" style="font-size:1rem; padding:5px 10px;">
+                                                @turno.Horario.ToString(@"hh\:mm")
+                                            </span>
+                                        </td>
+
+                                        <td data-label="Cliente">
+                                            <div class="d-flex align-center">
+                                                <i class="fa-solid fa-user icon-text"></i> @turno.NombreCliente
+                                            </div>
+                                        </td>
+
+                                        <td data-label="Mascota">
+                                            @if (turno.PrimeraCita && string.IsNullOrEmpty(turno.NombreMascota))
+                                            {
+                                                <span class="text-first-visit">
+                                                    <i class="fa-solid fa-star"></i> Primera Cita
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <div class="d-flex align-center">
+                                                    <i class="fa-solid fa-paw icon-text"></i> @turno.NombreMascota
+                                                </div>
+                                            }
+                                        </td>
+
+                                        <td data-label="Motivo">
+                                            @if (!string.IsNullOrWhiteSpace(turno.Motivo))
+                                            {
+                                                <span>@turno.Motivo</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted" style="font-style:italic;">No especificó motivo</span>
+                                            }
+                                        </td>
+
+                                        <td data-label="Estado" class="text-center">
+                                            @{
+                                                string badgeClass = turno.Estado switch
+                                                {
+                                                    "Pendiente" => "status-pending",
+                                                    "Finalizado" => "status-finished",
+                                                    "Cancelado" => "status-cancelled",
+                                                    "No Asistió" => "status-absent",
+                                                    _ => "status-pending"
+                                                };
+                                            }
+                                            <span class="status-badge @badgeClass">@turno.Estado</span>
+                                        </td>
+
+                                        <td data-label="Acciones" class="text-center">
+                                          
+                                            @if( User.IsInRole("Veterinario") )
+                                            {
+                                            <div class="d-flex justify-content-center gap-10">
+                                                @if (turno.Estado == "Pendiente")
+                                                {
+                                                    <a asp-controller="AtencionVeterinaria" asp-action="RegistrarAtencionConTurno" asp-route-turnoId="@turno.Id"
+                                                       class="btn btn-sm btn-primary" title="Atender">
+                                                        <i class="fa-solid fa-clipboard-check"></i>
+                                                    </a>
+
+                                                    <form asp-controller="Turno" asp-action="CancelarTurnoAdmin" method="post" onsubmit="return confirm('¿Cancelar turno?');">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="turnoId" value="@turno.Id" />
+                                                        <button type="submit" class="btn btn-sm btn-action-cancel" title="Cancelar">
+                                                            <i class="fa-solid fa-xmark"></i>
+                                                        </button>
+                                                    </form>
+
+                                                    <form asp-controller="Turno" asp-action="MarcarNoAsistio" method="post" onsubmit="return confirm('¿Marcar ausente?');">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="turnoId" value="@turno.Id" />
+                                                        <button type="submit" class="btn btn-sm btn-action-absent" title="Ausente">
+                                                            <i class="fa-solid fa-user-slash"></i>
+                                                        </button>
+                                                    </form>
+                                                }
+                                                else if (turno.Estado == "Finalizado")
+                                                {
+                                                    <a asp-controller="HistoriaClinica" asp-action="DetalleHistoriaClinica" asp-route-mascotaId="@turno.MascotaId"
+                                                       class="btn btn-sm btn-action-primary" title="Ver Historia">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+                                                }
+                                            </div>
+                                            }
+                                            else if (User.IsInRole("Veterinaria"))
+                                            {
+                                                <span class="badge bg-secondary text-wrap text-center" style="width: 100%; max-width: 150px;">
+                                                    <i class="fa-solid fa-lock"></i> Solo Veterinarios
+                                                </span>
+
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state-container">
+                        <div class="empty-search-icon">
+                            <i class="fa-regular fa-calendar-xmark"></i>
+                        </div>
+                        <p>No hay turnos registrados para el <strong>@Model.FechaSeleccionada.ToShortDateString()</strong>.</p>
+                    </div>
+                }
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-col footer-info">
+            <div class="footer-logo-container">
+                <div class="footer-logo-icon"><i class="fa-solid fa-paw"></i></div>
+                <h3 class="footer-brand">VetIng</h3>
+            </div>
+            <p class="footer-description">
+                Portal exclusivo para el personal médico. Gestión eficiente de pacientes y turnos.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Navegacion</h4>
+            <ul class="footer-links">
+                <li><a href="/@controllerDestino/PaginaPrincipal">Volver al inicio</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4 class="footer-heading">Soporte Técnico</h4>
+            <ul class="footer-links">
+                <li><a href="mailto:admin@veting.com">Contactar Admin</a></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" style="background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; font-family:inherit; font-size:0.95em; padding:0; text-decoration:underline;">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; @DateTime.Now.Year VetIng Software. Desarrollado por Ulises Sosa y Leonel Gallaretto.</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/menuhamburguesa.js" asp-append-version="true"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+
+    <script>
+        // Menú Móvil
+        const burger = document.getElementById('hamburgerBtn');
+        const nav = document.getElementById('navMenu');
+        if(burger && nav){
+            burger.addEventListener('click', () => nav.classList.toggle('active'));
+        }
+
+        // INICIALIZAR CALENDARIO
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#filtroFecha", {
+                locale: "es",
+                dateFormat: "Y-m-d", 
+                altInput: true,     
+                altFormat: "d/m/Y",  
+                disableMobile: "true",
+
+                onChange: function(selectedDates, dateStr, instance) {
+                    document.getElementById('formFiltroFecha').submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
