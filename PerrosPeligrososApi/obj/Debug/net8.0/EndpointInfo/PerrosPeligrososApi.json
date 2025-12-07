@@ -1,0 +1,157 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "API Gobierno Perros Peligrosos",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/perros-peligrosos/registrar": {
+      "post": {
+        "tags": [
+          "PerrosPeligrosos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PerroPeligrosoRegistroDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PerroPeligrosoRegistroDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PerroPeligrosoRegistroDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/perros-peligrosos/getAll": {
+      "get": {
+        "tags": [
+          "PerrosPeligrosos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/perros-peligrosos/getById/{id}": {
+      "get": {
+        "tags": [
+          "PerrosPeligrosos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/perros-peligrosos/buscar": {
+      "get": {
+        "tags": [
+          "PerrosPeligrosos"
+        ],
+        "parameters": [
+          {
+            "name": "dniOrcodigo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PerroPeligrosoRegistroDto": {
+        "type": "object",
+        "properties": {
+          "mascotaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreMascota": {
+            "type": "string",
+            "nullable": true
+          },
+          "razaMascota": {
+            "type": "string",
+            "nullable": true
+          },
+          "esRazaPeligrosa": {
+            "type": "boolean"
+          },
+          "tieneChip": {
+            "type": "boolean"
+          },
+          "chipCodigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "clienteDni": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clienteNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "clienteApellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaRegistro": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "description": "Ingresa la API Key",
+        "name": "PERROPELIGROSO-API-KEY",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKey": [ ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "ContainingType": "PerrosPeligrososApi.Controllers.PerrosPeligrososController",
+    "Method": "Buscar",
+    "RelativePath": "api/perros-peligrosos/buscar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dniOrcodigo",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PerrosPeligrososApi.Controllers.PerrosPeligrososController",
+    "Method": "ListarTodos",
+    "RelativePath": "api/perros-peligrosos/getAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PerrosPeligrososApi.Controllers.PerrosPeligrososController",
+    "Method": "ObtenerPorId",
+    "RelativePath": "api/perros-peligrosos/getById/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PerrosPeligrososApi.Controllers.PerrosPeligrososController",
+    "Method": "Registrar",
+    "RelativePath": "api/perros-peligrosos/registrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registroDto",
+        "Type": "PerrosPeligrososApi.Models.Dtos.PerroPeligrosoRegistroDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
