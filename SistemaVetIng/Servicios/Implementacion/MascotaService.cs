@@ -461,7 +461,7 @@ namespace SistemaVetIng.Servicios.Implementacion
             string clienteApellido)
         {
             // URL API 
-            var apiEndpoint = "http://localhost:5075/api/perros-peligrosos/registrar";
+            var apiEndpoint = "https://perrospeligrososapi.onrender.com/api/perros-peligrosos/registrar";
 
             // Objeto de datos a enviar a API
             var dataToSend = new
