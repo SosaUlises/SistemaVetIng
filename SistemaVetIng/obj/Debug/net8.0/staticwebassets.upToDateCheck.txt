@@ -24,7 +24,6 @@ wwwroot\css\imagenes\recuperarpass.jpg
 wwwroot\css\imagenes\reg-veterinario.jpg
 wwwroot\css\imagenes\restablecerpass.jpg
 wwwroot\css\imagenes\vet-cuidado.jpg
-wwwroot\css\portal-theme.css
 wwwroot\favicon.ico
 wwwroot\js\atencionVeterinaria.js
 wwwroot\js\dashboard.js
@@ -89,3 +88,4 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\css\portal-theme.css

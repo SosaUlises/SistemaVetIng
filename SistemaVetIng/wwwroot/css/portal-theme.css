@@ -3874,3 +3874,1176 @@ input.flatpickr-input[readonly] {
     filter: grayscale(100%);
     cursor: not-allowed !important;
 }
+
+/* =========================================================
+             HOME / LANDING - RESPONSIVE MOBILE
+   ========================================================= */
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Asegura que imágenes nunca desborden */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* --------- BREAKPOINT: Tablets / Mobile --------- */
+@media (max-width: 992px) {
+
+    .main-header {
+        padding: 0 18px;
+        height: 70px;
+    }
+
+    .landing-hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 105px 0 55px; 
+        margin-top: 0;
+        text-align: center;
+    }
+
+    .hero-text-content {
+        margin-left: 0; 
+        z-index: 12;
+    }
+
+        .hero-text-content h1 {
+            font-size: 2.35rem;
+            line-height: 1.12;
+        }
+
+        .hero-text-content p {
+            font-size: 1.05rem;
+            margin-bottom: 22px;
+        }
+
+        
+        .hero-text-content > div[style] {
+            justify-content: center;
+        }
+
+    .hero-img-wrapper {
+        order: -1; 
+        margin-top:100px;
+    }
+
+        .hero-img-wrapper img {
+            transform: none; 
+            border-radius: 16px;
+        }
+
+
+    .split-layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .section-heading-landing {
+        font-size: 2rem;
+        line-height: 1.15;
+    }
+
+    .features-grid-landing {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 28px;
+    }
+
+    .feature-card-landing {
+        padding: 26px 18px;
+        border-radius: 16px;
+        text-align: center;
+    }
+
+    .feature-icon-wrapper {
+        width: 56px;
+        height: 56px;
+        font-size: 1.35rem;
+        margin: 0 auto 16px;
+        display: flex;
+        align-items: center; 
+        justify-content: center; 
+    }
+
+}
+
+/* --------- BREAKPOINT: Mobile --------- */
+@media (max-width: 768px) {
+
+    .landing-container {
+        padding: 0 14px;
+    }
+
+  
+    #about .landing-container,
+    #features .landing-container {
+        padding: 26px !important;
+        border-radius: 18px;
+        margin: 0 8px;
+    }
+
+    .landing-section {
+        padding: 60px 0;
+    }
+
+    .hero-text-content h1 {
+        font-size: 2.1rem;
+    }
+
+    .hero-text-content p {
+        font-size: 1rem;
+    }
+
+    .hero-text-content .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-text-content > div[style] {
+        gap: 12px !important;
+        width: 100%;
+    }
+
+    .nav-list.active {
+        top: 70px;
+        left: 0;
+        width: 100%;
+        padding: 18px;
+        border-bottom-left-radius: 14px;
+        border-bottom-right-radius: 14px;
+    }
+
+        .nav-list.active li {
+            width: 100%;
+        }
+
+        .nav-list.active .nav-link,
+        .nav-list.active .btn,
+        .nav-list.active .btn-logout {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+        }
+
+    /* Footer: apila y centra mejor */
+    .main-footer {
+        padding: 40px 18px 18px;
+        gap: 26px;
+    }
+
+    .footer-col {
+        min-width: unset;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-links li {
+        justify-content: center;
+    }
+}
+
+/* --------- BREAKPOINT: Small phones --------- */
+@media (max-width: 420px) {
+
+    .logo {
+        font-size: 20px;
+        gap: 8px;
+    }
+
+        .logo i {
+            font-size: 26px;
+        }
+
+    .hero-text-content h1 {
+        font-size: 1.9rem;
+    }
+
+    .section-heading-landing {
+        font-size: 1.75rem;
+    }
+
+    #about .landing-container,
+    #features .landing-container {
+        padding: 20px !important;
+        margin: 0 6px;
+    }
+
+    .feature-card-landing {
+        padding: 22px 16px;
+    }
+}
+
+#hero, #about, #features, #contact {
+    scroll-margin-top: 90px;
+}
+
+/* =========================================================
+        HORARIOS DE ATENCIÓN –  MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* -------- Header de sección -------- */
+    #horarios .section-header {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    #horarios .section-heading {
+        font-size: 1.6rem;
+        text-align: center;
+    }
+
+    #horarios .section-header .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* -------- Info duración consulta -------- */
+    .config-info-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.95rem;
+        padding: 12px 14px;
+        border-radius: 14px;
+        margin-bottom: 18px;
+    }
+
+    .config-icon {
+        font-size: 1.3rem;
+    }
+
+    /* -------- Tabla → formato tarjeta -------- */
+    .custom-table {
+        border: none;
+    }
+
+        .custom-table tbody tr {
+            display: block;
+            margin-bottom: 16px;
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+            .custom-table tbody tr.row-closed {
+                opacity: 0.6;
+            }
+
+        .custom-table td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 4px;
+            border: none;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+
+            /* Label (Día / Estado / Horario) */
+            .custom-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                color: rgba(255, 255, 255, 0.65);
+                text-align: left;
+            }
+
+            /* Día */
+            .custom-table td[data-label="Día"] {
+                font-size: 1.05rem;
+                font-weight: 600;
+                color: #fff;
+            }
+
+    /* Estado */
+    .status-active,
+    .status-closed {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    /* Horario */
+    .time-display {
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    .time-empty {
+        font-size: 1.2rem !important;
+    }
+
+    /* -------- Empty state -------- */
+    .empty-state-container {
+        text-align: center;
+        padding: 24px 16px;
+        font-size: 0.95rem;
+    }
+}
+
+/* -------- Small phones -------- */
+@media (max-width: 420px) {
+
+    #horarios .section-heading {
+        font-size: 1.45rem;
+    }
+
+    .custom-table tbody tr {
+        padding: 12px;
+    }
+
+    .custom-table td {
+        font-size: 0.9rem;
+    }
+}
+
+/* =========================================================
+    CONFIGURACIÓN HORARIA (GuardarConfiguracion) – MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+   
+    .main-content {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    /* Hero */
+    .dash-hero {
+        padding: 18px 0;
+    }
+
+    .dash-title h1 {
+        font-size: 1.8rem;
+        line-height: 1.15;
+        text-align: center;
+    }
+
+    .dash-subtitle {
+        text-align: center;
+        font-size: 0.95rem;
+    }
+
+    /* Contenedor del form */
+    .booking-container {
+        padding: 18px 14px;
+        border-radius: 16px;
+    }
+
+        .booking-container .form-group input[type="number"] {
+            max-width: 100% !important; 
+            width: 100%;
+        }
+
+    /* Título sección */
+    .form-section-title {
+        text-align: center;
+        font-size: 1.15rem;
+        margin-top: 18px;
+        margin-bottom: 14px;
+    }
+
+    .schedule-list {
+        display: grid;
+        gap: 14px;
+    }
+
+    .schedule-item {
+        padding: 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* Día + switch arriba, bien alineado */
+    .day-control {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .day-label {
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    /* Inputs de hora: apilados en mobile */
+    .time-inputs-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .time-separator {
+        display: none; 
+    }
+
+    .time-inputs-wrapper .form-control[type="time"] {
+        width: 100%;
+        height: 44px;
+        font-size: 1rem;
+    }
+
+    /* Acciones: botones full width y apilados */
+    .form-actions {
+        flex-direction: column;
+        justify-content: stretch !important; 
+        gap: 10px !important;
+    }
+
+        .form-actions .btn {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+        }
+}
+
+/* -------- Small phones -------- */
+@media (max-width: 420px) {
+
+    .dash-title h1 {
+        font-size: 1.6rem;
+    }
+
+    .booking-container {
+        padding: 16px 12px;
+    }
+
+    .schedule-item {
+        padding: 12px;
+    }
+}
+
+/* =========================================================
+   DASHBOARD – CENTRAR INFO DE STAT CARDS (MOBILE)
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* Grid más amigable en mobile */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    /* Card */
+    .stat-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        justify-content: center;
+        text-align: center;
+        padding: 18px 14px;
+        border-radius: 18px;
+    }
+
+    /* Ícono */
+    .stat-icon {
+        margin: 0 auto 10px; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Valor principal */
+    .stat-value {
+        text-align: center;
+        font-size: 1.6rem;
+        line-height: 1.2;
+        margin-bottom: 6px;
+        word-break: break-word;
+    }
+
+    /* Label */
+    .stat-label {
+        text-align: center;
+        font-size: 0.85rem;
+        line-height: 1.2;
+        color: var(--text-muted);
+    }
+}
+
+/* -------- Small phones -------- */
+@media (max-width: 420px) {
+
+    .stat-card {
+        padding: 16px 12px;
+    }
+
+    .stat-value {
+        font-size: 1.45rem;
+    }
+}
+
+/* =========================================================
+         AGENDA DIARIA – MEJORAS RESPONSIVE MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* ---------- Hero ---------- */
+    .dash-hero {
+        padding: 18px 0;
+    }
+
+    .dash-title h1 {
+        font-size: 1.8rem;
+        text-align: center;
+        line-height: 1.15;
+    }
+
+    .dash-subtitle {
+        text-align: center;
+        font-size: 0.95rem;
+    }
+
+    /* ---------- Filtro por fecha ---------- */
+    .date-filter-card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+    .date-filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: stretch;
+    }
+
+    .filter-label {
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .calendar-input-fix {
+        width: 100% !important; /* pisa inline width:200px */
+        text-align: center;
+    }
+
+    .date-display-text {
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    /* ---------- Tabla → Cards ---------- */
+    .custom-table thead {
+        display: none;
+    }
+
+    .custom-table tbody tr {
+        display: block;
+        margin-bottom: 16px;
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .custom-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 4px;
+        border: none;
+        text-align: right;
+        font-size: 0.95rem;
+    }
+
+        /* Labels */
+        .custom-table td::before {
+            content: attr(data-label);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        /* Hora destacada */
+        .custom-table td[data-label="Hora"] {
+            justify-content: center;
+        }
+
+            .custom-table td[data-label="Hora"]::before {
+                display: none;
+            }
+
+    .time-display {
+        font-size: 1.05rem !important;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 999px;
+    }
+
+    /* Cliente / Mascota */
+    .icon-text {
+        margin-right: 6px;
+    }
+
+    .text-first-visit {
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    /* Motivo */
+    .custom-table td[data-label="Motivo"] {
+        align-items: flex-start;
+    }
+
+    /* Estado */
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+
+    /* ---------- Acciones ---------- */
+    .custom-table td[data-label="Acciones"] {
+        justify-content: center;
+    }
+
+        .custom-table td[data-label="Acciones"]::before {
+            display: none;
+        }
+
+    .custom-table .d-flex.justify-content-center {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .custom-table .btn-sm {
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Badge “Solo Veterinarios” */
+    .custom-table .badge {
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center;
+    }
+
+    /* ---------- Empty state ---------- */
+    .empty-state-container {
+        padding: 28px 16px;
+        text-align: center;
+    }
+
+    .empty-search-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+}
+
+/* -------- Small phones -------- */
+@media (max-width: 420px) {
+
+    .dash-title h1 {
+        font-size: 1.6rem;
+    }
+
+    .custom-table tbody tr {
+        padding: 12px;
+    }
+
+    .time-display {
+        font-size: 1rem !important;
+    }
+}
+
+/* =========================================================
+   ADMIN – GESTIÓN DE PERMISOS (MOBILE)
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* Hero */
+    .dash-title h1 {
+        font-size: 1.8rem;
+        text-align: center;
+        line-height: 1.15;
+    }
+
+    .dash-subtitle {
+        text-align: center;
+        font-size: 0.95rem;
+    }
+
+    /* ---------- Filtro (select rol) ---------- */
+    .filter-bar-container {
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+        .filter-bar-container form {
+            flex-direction: column !important; /* pisa inline flex row */
+            align-items: stretch !important;
+            gap: 10px !important;
+        }
+
+    .filter-label {
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .filter-select-wrapper {
+        width: 100%;
+    }
+
+    #roleSelect {
+        width: 100%;
+        text-align: center;
+        height: 44px;
+    }
+
+    /* ---------- Header de sección ---------- */
+    .list-container .section-header {
+        padding: 16px !important; /* pisa inline padding */
+    }
+
+    .list-container .section-heading {
+        font-size: 1.15rem !important;
+        text-align: center;
+        line-height: 1.2;
+    }
+
+    /* ---------- Tabla -> Cards ---------- */
+    .custom-table thead {
+        display: none;
+    }
+
+    .custom-table tbody tr {
+        display: block;
+        margin-bottom: 14px;
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .custom-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 4px;
+        border: none;
+        font-size: 0.95rem;
+    }
+
+        .custom-table td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: left;
+            padding-right: 12px;
+        }
+
+    /* Permiso: mejor lectura */
+    .permission-label {
+        display: block;
+        font-weight: 700;
+        line-height: 1.2;
+        text-align: left;
+    }
+
+    .permission-subtext {
+        display: block;
+        font-size: 0.78rem;
+        opacity: 0.75;
+        margin-top: 4px;
+        word-break: break-word;
+        text-align: left;
+    }
+
+    /* Estado (toggle) centrado */
+    .custom-table td[data-label="Estado"] {
+        justify-content: center;
+    }
+
+        .custom-table td[data-label="Estado"]::before {
+            display: none;
+        }
+
+    .toggle-switch {
+        transform: scale(1.05);
+    }
+
+    /* ---------- Guardar ---------- */
+    .form-actions {
+        padding: 16px !important; /* pisa inline */
+        justify-content: stretch !important; /* pisa inline */
+    }
+
+        .form-actions .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+    /* Empty state */
+    .empty-state-container {
+        padding: 26px 16px;
+        text-align: center;
+    }
+
+        .empty-state-container .empty-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+}
+
+/* -------- Small phones -------- */
+@media (max-width: 420px) {
+
+    .dash-title h1 {
+        font-size: 1.6rem;
+    }
+
+    .custom-table tbody tr {
+        padding: 12px;
+    }
+
+    .permission-subtext {
+        font-size: 0.75rem;
+    }
+}
+
+/* =========================================================
+   ADMIN – ROLES POR USUARIO (MOBILE)
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* ---------- Hero ---------- */
+    .dash-title h1 {
+        font-size: 1.8rem;
+        text-align: center;
+        line-height: 1.15;
+    }
+
+    .dash-subtitle {
+        text-align: center;
+        font-size: 0.95rem;
+    }
+
+    /* ---------- Filtro (select usuario) ---------- */
+    .filter-bar-container {
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+        .filter-bar-container form {
+            flex-direction: column !important; /* pisa inline */
+            align-items: stretch !important;
+            gap: 10px !important;
+        }
+
+    .filter-label {
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .filter-select-wrapper {
+        width: 100%;
+    }
+
+    #userSelect {
+        width: 100%;
+        height: 44px;
+        text-align: center;
+    }
+
+    /* ---------- Header usuario ---------- */
+    .user-permission-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        text-align: center;
+    }
+
+    .user-permission-avatar {
+        width: 64px;
+        height: 64px;
+        font-size: 1.4rem;
+    }
+
+    .user-permission-info h3 {
+        font-size: 1.1rem;
+        margin-bottom: 4px;
+    }
+
+    .user-permission-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 0.85rem;
+        align-items: center;
+    }
+
+    .role-badge-info {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+        border-radius: 999px;
+    }
+
+    /* ---------- Tabla -> Cards ---------- */
+    .custom-table thead {
+        display: none;
+    }
+
+    .custom-table tbody tr {
+        display: block;
+        margin-bottom: 14px;
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .custom-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 4px;
+        border: none;
+        font-size: 0.95rem;
+    }
+
+        .custom-table td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+    /* Rol */
+    .role-tag {
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    /* Estado (toggle) */
+    .custom-table td[data-label="Estado"] {
+        justify-content: center;
+    }
+
+        .custom-table td[data-label="Estado"]::before {
+            display: none;
+        }
+
+    .toggle-switch {
+        transform: scale(1.05);
+    }
+
+    /* ---------- Guardar ---------- */
+    .form-actions {
+        padding: 16px !important;
+        justify-content: stretch !important;
+    }
+
+        .form-actions .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+    /* ---------- Empty state ---------- */
+    .empty-state-container {
+        padding: 26px 16px;
+        text-align: center;
+    }
+
+    .empty-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+}
+
+/* -------- Small phones -------- */
+@media (max-width: 420px) {
+
+    .dash-title h1 {
+        font-size: 1.6rem;
+    }
+
+    .custom-table tbody tr {
+        padding: 12px;
+    }
+
+    .role-tag {
+        font-size: 0.9rem;
+    }
+}
+/* =========================================================
+   ADMIN – CENTRAR TÍTULOS E INFO (MOBILE)
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* ---------- HERO / TITULOS PRINCIPALES ---------- */
+    .dash-title,
+    .dash-hero {
+        text-align: center;
+    }
+
+        .dash-title h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            line-height: 1.15;
+        }
+
+    .dash-subtitle {
+        text-align: center;
+        font-size: 0.95rem;
+    }
+
+    .dash-actions {
+        justify-content: center;
+    }
+
+    /* ---------- HEADERS DE SECCIÓN ---------- */
+    .section-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .section-heading {
+        text-align: center;
+    }
+
+    .section-header > div,
+    .section-header .d-flex {
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* ---------- STAT CARDS / REPORT CARDS ---------- */
+    .stat-card,
+    .report-card,
+    .catalog-card {
+        align-items: center;
+        text-align: center;
+    }
+
+        .stat-card .stat-icon,
+        .report-card .stat-icon {
+            margin: 0 auto 10px;
+        }
+
+    .stat-value,
+    .stat-label,
+    .report-value,
+    .report-label,
+    .catalog-title {
+        text-align: center;
+    }
+
+    /* ---------- LIST ITEMS (TURNOS / CLIENTES / VETS / MASCOTAS) ---------- */
+    .list-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+    }
+
+        .list-item > div {
+            justify-content: center;
+            text-align: center;
+        }
+
+    .item-info {
+        align-items: center;
+        text-align: center;
+    }
+
+        .item-info h4,
+        .item-info p {
+            text-align: center;
+        }
+
+    /* ---------- AVATARES / ICONOS ---------- */
+    .avatar-circle,
+    .pet-icon-circle,
+    .time-block {
+        margin: 0 auto;
+    }
+
+    /* ---------- BADGES ---------- */
+    .badge,
+    .badge-new,
+    .status-active,
+    .status-closed {
+        margin: 0 auto;
+        display: inline-block;
+    }
+
+    /* ---------- BOTONES DE ACCIÓN ---------- */
+    .actions-container,
+    .list-item .actions-container,
+    .list-item form,
+    .list-item a {
+        justify-content: center;
+    }
+
+    /* ---------- EMPTY STATES ---------- */
+    .empty-state-container {
+        text-align: center;
+    }
+
+    /* ---------- FOOTER ---------- */
+    .main-footer,
+    .footer-col,
+    .footer-info {
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-links li {
+        justify-content: center;
+    }
+}
+
+/* -------- Small phones -------- */
+@media (max-width: 420px) {
+
+    .dash-title h1 {
+        font-size: 1.6rem;
+    }
+
+    .section-heading {
+        font-size: 1.3rem;
+    }
+
+    .stat-value {
+        font-size: 1.4rem;
+    }
+}
