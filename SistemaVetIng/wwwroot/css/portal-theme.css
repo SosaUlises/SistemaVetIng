@@ -5047,3 +5047,529 @@ img {
         font-size: 1.4rem;
     }
 }
+
+/* =========================================================
+   VETERINARIO – AGENDA DEL DÍA (#turnos-hoy) – MOBILE NICE LAYOUT
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* Header: título arriba, botón full width */
+    #turnos-hoy .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    #turnos-hoy .section-heading {
+        text-align: left;
+        font-size: 1.35rem;
+        line-height: 1.2;
+        margin: 0;
+    }
+
+    #turnos-hoy .section-header .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Card */
+    #turnos-hoy .list-item {
+        padding: 14px 14px 12px;
+        border-radius: 18px;
+        gap: 12px;
+    }
+
+        /* Layout superior: hora + info (en fila) */
+        #turnos-hoy .list-item > div:first-child {
+            display: grid !important;
+            grid-template-columns: 70px 1fr;
+            align-items: center;
+            gap: 12px !important;
+        }
+
+    /* Hora: compacta tipo pill */
+    #turnos-hoy .time-block {
+        width: 70px;
+        border-radius: 14px;
+        padding: 10px 20px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    #turnos-hoy .time-hour {
+        font-size: 1.05rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    #turnos-hoy .time-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        opacity: 0.75;
+        margin-top: 4px;
+    }
+
+    /* Info */
+    #turnos-hoy .item-info {
+        text-align: right;
+        padding: 12px;
+    }
+
+    #turnos-hoy .appointment-title {
+        font-size: 1.02rem;
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 6px;
+    }
+
+    #turnos-hoy .badge-new {
+        margin-left: 8px;
+    }
+
+    #turnos-hoy .appointment-meta {
+        font-size: 0.88rem;
+        opacity: 0.85;
+        line-height: 1.25;
+    }
+
+    /* Acciones: fila prolija abajo */
+    #turnos-hoy .action-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+        /* Badge estado a la izquierda */
+        #turnos-hoy .action-buttons .badge {
+            white-space: nowrap;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        /* Grupo de botones a la derecha */
+        #turnos-hoy .action-buttons > a.btn,
+        #turnos-hoy .action-buttons > form {
+            margin: 0;
+        }
+
+        /* Botón atender: compacto, no gigante */
+        #turnos-hoy .action-buttons .btn-primary.btn-sm {
+            padding: 8px 12px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+    /* Botones icon-only (cancel/absent) – mismos tamaños */
+    #turnos-hoy .btn-cancel,
+    #turnos-hoy .btn-absent {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Evita que los forms rompan línea */
+    #turnos-hoy .action-buttons form {
+        display: inline-flex;
+    }
+
+    /* Empty state */
+    #turnos-hoy .empty-state-container {
+        padding: 26px 16px;
+        text-align: center;
+    }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+
+    #turnos-hoy .list-item > div:first-child {
+        grid-template-columns: 64px 1fr;
+    }
+
+    #turnos-hoy .time-block {
+        width: 64px;
+        padding: 9px 6px;
+    }
+
+    #turnos-hoy .action-buttons {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+        #turnos-hoy .action-buttons .badge {
+            margin-right: auto;
+        }
+}
+
+/* =========================================================
+   SEGUIMIENTO CLÍNICO – MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* Hero */
+    .dash-hero.dash-hero--center {
+        padding: 18px 0;
+    }
+
+        .dash-hero.dash-hero--center .dash-title {
+            text-align: center;
+        }
+
+            .dash-hero.dash-hero--center .dash-title h1 {
+                font-size: 1.75rem;
+                line-height: 1.15;
+            }
+
+        .dash-hero.dash-hero--center .dash-subtitle {
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+    /* Search */
+    .search-focus-container {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+        .search-focus-container .search-box {
+            width: 100%;
+        }
+
+        .search-focus-container .search-input {
+            width: 100%;
+            height: 44px;
+            font-size: 1rem;
+        }
+
+    /* Table -> Cards */
+    .custom-table thead {
+        display: none;
+    }
+
+    .custom-table tbody tr {
+        display: block;
+        margin-bottom: 14px;
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .custom-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 4px;
+        border: none;
+        font-size: 0.95rem;
+        text-align: right;
+    }
+
+        .custom-table td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: left;
+            padding-right: 12px;
+        }
+
+    /* Cliente row: mejor visual */
+    .avatar-sm {
+        width: 38px;
+        height: 38px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .text-name {
+        font-weight: 700;
+    }
+
+    /* Acción: botón full width */
+    .custom-table td[data-label="Acción"] {
+        justify-content: center;
+        padding-top: 12px;
+        margin-top: 10px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+        .custom-table td[data-label="Acción"]::before {
+            display: none;
+        }
+
+    .btn-action-table {
+        width: 100%;
+        justify-content: center;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 42px;
+        border-radius: 12px;
+        white-space: nowrap;
+    }
+
+    /* Paginación */
+    .pagination-wrapper {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0 0;
+    }
+
+    /* Empty state */
+    .empty-state-container {
+        padding: 26px 16px;
+        text-align: center;
+    }
+
+    .empty-search-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+    .dash-hero.dash-hero--center .dash-title h1 {
+        font-size: 1.55rem;
+    }
+
+    .custom-table tbody tr {
+        padding: 12px;
+    }
+
+    .btn-action-table {
+        height: 40px;
+    }
+}
+
+/* =========================================================
+   CLIENTE – MIS MASCOTAS (#mascotas) – MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    #mascotas .section-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    #mascotas .section-heading {
+        text-align: center;
+        font-size: 1.4rem;
+        line-height: 1.2;
+    }
+
+    /* Cada mascota como card */
+    #mascotas .list-item {
+        padding: 14px;
+        border-radius: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+        /* Bloque icono + info */
+        #mascotas .list-item > div:first-child {
+            display: grid !important;
+            grid-template-columns: 44px 1fr;
+            align-items: center;
+            gap: 12px !important;
+        }
+
+            #mascotas .list-item > div:first-child > div:first-child {
+                width: 44px !important;
+                height: 44px !important;
+                border-radius: 999px !important;
+                background: rgba(255, 255, 255, 0.06) !important;
+                color: var(--secondary-color) !important;
+            }
+
+    /* Info */
+    #mascotas .item-info {
+        text-align: left;
+    }
+
+        #mascotas .item-info h4 {
+            margin: 0 0 4px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.15;
+        }
+
+        #mascotas .item-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+    #mascotas .list-item > a.btn {
+        width: 100%;
+        justify-content: center;
+        height: 42px;
+        border-radius: 12px;
+    }
+
+    /* Empty state */
+    #mascotas .list-container > div[style*="Sin mascotas"] {
+        padding: 22px !important;
+        border-radius: 16px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+    #mascotas .section-heading {
+        font-size: 1.25rem;
+    }
+
+    #mascotas .list-item {
+        padding: 12px;
+    }
+}
+
+/* =========================================================
+   CLIENTE – PAGOS PENDIENTES (#pagos) – MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    #pagos .section-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    #pagos .section-heading {
+        text-align: center;
+        font-size: 1.4rem;
+        line-height: 1.2;
+    }
+
+    /* Lista scrolleable: mejor padding */
+    #pagos .list-container form > div[style*="max-height"] {
+        max-height: 360px !important; 
+        padding-right: 6px;
+    }
+
+    /* Cards de pagos */
+    #pagos .list-item {
+        padding: 14px;
+        border-radius: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+        /* Fila superior: checkbox + info */
+        #pagos .list-item > div:first-child {
+            display: grid !important;
+            grid-template-columns: 28px 1fr;
+            align-items: center;
+            gap: 12px !important;
+        }
+
+    /* Checkbox más cómodo */
+    #pagos .chk-pago {
+        width: 22px;
+        height: 22px;
+        accent-color: var(--primary-color);
+        cursor: pointer;
+    }
+
+    /* Info */
+    #pagos .item-info h4 {
+        margin: 0 0 4px;
+        font-size: 1.02rem;
+        font-weight: 700;
+        line-height: 1.15;
+    }
+
+    #pagos .item-info p {
+        margin: 0;
+        font-size: 0.9rem;
+        opacity: 0.85;
+    }
+
+    /* Monto: abajo alineado a la derecha */
+    #pagos .list-item > div:last-child {
+        text-align: right;
+        font-size: 1.05rem;
+        font-weight: 800;
+        padding-top: 8px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Footer tipo “checkout” */
+    #pagos .payments-footer {
+        margin-top: 14px;
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.04);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        position: sticky;
+        bottom: 0;
+    }
+
+    #pagos .total-display {
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    #pagos #total-a-pagar {
+        font-weight: 900;
+        margin-left: 6px;
+    }
+
+    #pagos #btn-pagar-seleccionados {
+        width: 100%;
+        height: 44px;
+        border-radius: 12px;
+        justify-content: center;
+        font-size: 1rem;
+    }
+
+    /* Estado "estás al día" */
+    #pagos .list-container div[style*="Estás al día"] {
+        padding: 22px !important;
+        border-radius: 16px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+    #pagos .section-heading {
+        font-size: 1.25rem;
+    }
+
+    #pagos .list-item {
+        padding: 12px;
+    }
+
+    #pagos .payments-footer {
+        padding: 12px;
+    }
+}
