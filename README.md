@@ -256,8 +256,10 @@ Sistema basado en la entidad `AuditoriaEvento`, que registra:
 
 ## 👨‍💻 Autores
 
-**Ulises Ezequiel Sosa**
+**Ulises Ezequiel Sosa**  
+—  
 **Leonel Gallaretto**
+
 
 </div>
 
