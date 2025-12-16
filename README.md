@@ -1,189 +1,263 @@
-# 🐾 VetIng – Sistema Integral de Gestión Veterinaria
+<div align="center">
 
-### 📚 Proyecto Académico – Ingeniería en Sistemas Informaticos
-Una plataforma completa diseñada para optimizar la gestión clínica, administrativa y comercial de una veterinaria moderna.  
-Construida con foco en **escalabilidad**, **experiencia de usuario** y **toma de decisiones basada en datos**.
+# 🐾 VetIng – Sistema Integral de Gestión Veterinaria  
+### ☁️ Versión Cloud (PostgreSQL + Render + Neon)
+
+---
+> <sub>Versión original (Local – SQL Server): https://github.com/GallarettoLeonel2AN/SistemaVetIng</sub>
+---
+
+### 🎓 Proyecto Académico – Ingeniería en Sistemas Informáticos
+
+**VetIng** es una plataforma integral diseñada para optimizar la **gestión clínica, administrativa y comercial** de una veterinaria moderna.
+
+El sistema fue desarrollado con foco en:
+
+✨ Escalabilidad &nbsp;&nbsp; 🔐 Seguridad &nbsp;&nbsp; 🧠 Experiencia de usuario &nbsp;&nbsp;
+🛡️ Trazabilidad y control &nbsp;&nbsp; 📊 Toma de decisiones basada en datos
+
+</div>
 
 ---
 
-## 🛠️ Guía de Instalación y Ejecución Local
+## 🌐 Aplicación Deployada (Live Demo)
 
-Para levantar el proyecto en tu entorno de desarrollo, sigue estos pasos para configurar la base de datos y las dependencias.
+Esta versión del sistema se encuentra **deployada y operativa en la nube**, permitiendo su acceso directo sin necesidad de instalación local.
 
-### Requisitos previos
-- Visual Studio 2022 o superior.
-- .NET 8 SDK.
-- SQL Server (LocalDB o Express).
+### 🔗 URLs públicas
 
-### Paso 1: Configuración de Base de Datos
-El sistema consta de dos contextos de base de datos separados (API externa y Sistema principal). Ejecuta las migraciones en el siguiente orden desde la **Consola del Administrador de Paquetes** (Package Manager Console):
+- 🏥 **Sistema VetIng (Web App)**  
+  👉 https://sistemaveting-dcpx.onrender.com/
 
-**1. Levantar API Perros Peligrosos**  
-Selecciona el proyecto `PerrosPeligrosos.Api` en la lista desplegable de "Default Project" y ejecuta:
+- 🐕 **API Perros Peligrosos (Swagger)**  
+  👉 https://perrospeligrososapi.onrender.com/swagger/index.html
 
-```powershell
-Add-Migration InicialApi
-Update-Database
-```
-
-**2. Levantar VetIng (Sistema Principal)**  
-Selecciona el proyecto **VetIng** (o tu proyecto web principal) y ejecuta:
-
-```powershell
-Add-Migration InicialVetIng
-Update-Database
-```
-
-Esto generará las tablas necesarias en tu instancia local de SQL Server.
+> 📱 **Nota:** La aplicación es **responsive** y está optimizada para su uso desde dispositivos móviles, pero se recomienda utilizarla en desktop para una mejor experiencia
 
 ---
 
-## 📡 API Externa: Registro de Perros Peligrosos
+## 🗄️ Infraestructura y Base de Datos
 
-Este proyecto incluye una API RESTful simulada que actúa como un sistema gubernamental para el control de animales peligrosos. VetIng se comunica con ella para validar y registrar mascotas.
+Esta versión utiliza **infraestructura cloud**, con persistencia de datos en **PostgreSQL**.
 
-### 🔐 Seguridad y Acceso  
-La API está protegida mediante API Key. Para probar los endpoints en Swagger o Postman, debes autorizarte:
+### 🧱 Arquitectura de despliegue
 
-**Header:** `PERROPELIGROSO-API-KEY`  
-**Value:** `AccesoVetIng`
+- ☁️ **Render** → Hosting de la aplicación Web y de la API
+- 🐘 **Neon** → Base de datos PostgreSQL administrada
+- 🔌 **Entity Framework Core** → ORM
+- 🌐 **ASP.NET Core MVC + Web API**
 
-### 🔗 Endpoints Principales
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| **POST** | `/api/PerrosPeligrosos/registrar` | Upsert: Registra un nuevo perro o actualiza si ya existe (incluyendo su chip). |
-| **GET** | `/api/PerrosPeligrosos` | Listar Todos: Devuelve el padrón completo de animales peligrosos. |
-| **GET** | `/api/PerrosPeligrosos/{id}` | Detalle: Obtiene información específica de un animal por su ID. |
-| **GET** | `/api/PerrosPeligrosos/buscar?termino=` | Búsqueda Inteligente: Filtra por DNI del dueño o Código de Chip. |
+> 📌 **Importante:**  
+> En esta versión **NO es necesario ejecutar migraciones manualmente**.  
+> La base de datos ya se encuentra **creada, migrada y poblada** en el entorno productivo.
 
 ---
 
-## 📖 Descripción General VetIng
+## 📡 API Externa – Registro de Perros Peligrosos
 
-VetIng centraliza la operación diaria de una clínica veterinaria mediante una arquitectura sólida en ASP.NET Core MVC.  
-La plataforma administra de forma eficiente los tres roles fundamentales:
+API RESTful simulada que representa un sistema gubernamental para el control de razas peligrosas.
 
-- **Administrador**
-- **Veterinario**
-- **Cliente**
+El sistema VetIng se comunica con esta API para **registrar y validar mascotas**, incluyendo chip cuando corresponde.
 
-Incluye módulos de gestión de mascotas, historias clínicas, turnos inteligentes, pagos online y reportes de negocio.
+### 🔐 Seguridad
+La API está protegida mediante **API Key**.
+
+| Header | Value |
+|------|-------|
+| `PERROPELIGROSO-API-KEY` | `AccesoVetIng` |
+
+### 🔗 Endpoints Disponibles
+
+| Método | Endpoint |
+|------|---------|
+| **POST** | `/api/PerrosPeligrosos/registrar` |
+| **GET** | `/api/PerrosPeligrosos` |
+| **GET** | `/api/PerrosPeligrosos/{id}` |
+| **GET** | `/api/PerrosPeligrosos/buscar?termino=` |
+
+---
+
+## 🧭 Guía Funcional por Rol
+
+Esta sección resume rápidamente qué puede hacer cada perfil dentro del sistema.
+
+<details>
+<summary><strong>🏥 Rol Veterinaria / Administrador (Owner)</strong> <em>(Click para desplegar)</em></summary>
+<br>
+
+Rol con control total del sistema y visión estratégica del negocio.
+
+#### 📊 Reportes y métricas del negocio
+La sección de reportes brinda una **visión integral del rendimiento de la veterinaria**, orientada a la toma de decisiones estratégicas.
+Cuenta con visualizaciones gráficas dinámicas (gráficos de **barras** y **torta**) e indicadores clave de gestión (KPIs), entre los que se destacan:
+
+- Clientes más frecuentes y nivel de recurrencia.
+- Ingresos discriminados por período: **diario, semanal, mensual y anual**.
+- Estado de los turnos: **atendidos, pendientes, cancelados y ausentes**.
+- Productividad y carga de trabajo por veterinario.
+- Servicios más solicitados y tendencias de demanda.
+
+#### 🔐 Gestión de seguridad y permisos
+- Asignar y quitar permisos por usuario.
+- Asignar y quitar permisos por rol.
+- Asignar o revocar el rol **Veterinaria** a Veterinarios.
+
+#### ⏰ Configuración operativa
+- Configuración de días y horarios de atención.
+- Definición de duración de consultas.
+- Gestión de excepciones horarias y bloqueos.
+
+#### 📅 Turnos
+- Visualización de agenda diaria completa.
+- Consulta de historial de turnos.
+- Supervisión de estados (Pendiente, Cancelado, Finalizado, Ausente).
+
+#### 🐾 Gestión general
+- Alta, baja y modificación de:
+  - Veterinarios
+  - Clientes
+  - Mascotas
+  - Estudios complementarios
+  - Vacunas
+
+#### 🛡️ Auditoría del sistema
+- Registro de:
+  - Login y logout
+  - Login fallido
+  - Creación, modificación y eliminación de mascotas
+- Visualización de:
+  - Usuario
+  - Rol
+  - Fecha y hora exacta
+  - Detalle de la acción
+
+</details>
+
+<details>
+<summary><strong>🩺 Rol Veterinario (Operativo – Atención clínica)</strong> <em>(Click para desplegar)</em></summary>
+<br>
+
+Rol enfocado en la atención médica y gestión diaria.
+
+- Visualizar turnos del día e historial de turnos.
+- Realizar atenciones veterinarias:
+  - Asociadas a un turno
+  - Sin turno previo
+- Acceder al historial clínico completo de la mascota.
+- Modificar atenciones veterinarias previas.
+- Marcar turnos como cancelados o no asistidos.
+- Gestionar clientes y mascotas.
+- Registrar cobros presenciales:
+  - Efectivo
+  - Tarjeta
+
+</details>
+
+<details>
+<summary><strong>👤 Rol Cliente (Usuario final)</strong> <em>(Click para desplegar)</em></summary>
+<br>
+
+Rol orientado a la autogestión y experiencia del cliente.
+
+- Reservar turnos para sus mascotas.
+- Cancelar turnos.
+- Solicitar primera cita para mascotas no registradas.
+- Visualizar mascotas y su historial clínico.
+- Consultar historial de turnos.
+- Realizar pagos online mediante **Mercado Pago**.
+- Visualizar historial de pagos.
+
+</details>
+
+---
+
+### 🔐 Autenticación y Seguridad
+
+- Sistema de login seguro con **ASP.NET Core Identity**.
+- Recuperación de contraseña vía correo electrónico.
+- Control de acceso basado en **roles y permisos (RBAC)**.
+
+---
+
+## 📖 Descripción General del Sistema
+
+VetIng centraliza la operación diaria de una clínica veterinaria mediante una arquitectura sólida basada en **ASP.NET Core MVC**.
+
+Incluye módulos de:
+- Gestión de mascotas
+- Historias clínicas
+- Turnos inteligentes
+- Pagos online
+- Reportes de negocio
+- Auditoría y trazabilidad
 
 ---
 
 ## 🏛️ Arquitectura Técnica
 
-La solución adopta una estructura en capas siguiendo el patrón MVC, con servicios desacoplados e integraciones externas.
+Arquitectura en capas siguiendo el patrón **MVC**.
 
-### 📌 Capas del Sistema
-
-| Capa | Descripción |
-|------|-------------|
-| **Presentación (Views)** | Construida con Razor Pages para una UI limpia y responsiva. |
-| **Controladores (MVC)** | Orquestan solicitudes sin lógica de negocio. |
-| **Servicios** | Contienen reglas de negocio, validaciones e integraciones externas. |
-| **Datos / Repositorios** | Acceso mediante Entity Framework Core + SQL Server. |
+- **Presentación:** Razor Views
+- **Controladores:** Orquestación sin lógica de negocio
+- **Servicios:** Reglas de negocio e integraciones externas
+- **Repositorios:** Acceso a datos con Entity Framework Core
+- **Integraciones:** APIs externas, pagos y notificaciones
 
 ---
 
 ## 🔌 Integraciones Externas
 
-- **API Perros Peligrosos** → Validación de normativas y chips (Backend propio).  
-- **Mercado Pago** → Procesamiento de pagos online desde el sistema.  
-- **SMTP Service** → Recuperación de contraseña, avisos y notificaciones.  
+- API Perros Peligrosos
+- Mercado Pago
+- Servicio SMTP para recuperación de contraseña y notificaciones
 
 ---
 
-## ✨ Módulos Principales
+## 🛡️ Auditoría y Trazabilidad
 
-### 👤 Gestión de Usuarios (Identity, Roles y Permisos)
-- ASP.NET Core Identity completamente implementado.  
-- Recuperación de contraseña por correo.  
-- Sistema RBAC (Role-Based Access Control).  
-- Permisos asignados por rol y por usuario.  
-
----
-
-### 📅 Sistema de Turnos Inteligente
-
-✔ Clientes reservan turnos directamente desde la web.  
-✔ Veterinarios gestionan su agenda y registran atenciones.  
-✔ Validaciones avanzadas:
-
-- Evita solapamientos de turnos.  
-- Considera disponibilidad horaria individual.  
-- Controla bloqueos, ausencias y horarios especiales.  
-
-**Estados admitidos:** *Pendiente, Cancelado, Finalizado, Ausente.*
-
----
-
-## 📊 Business Intelligence – Reportes Estratégicos
-
-Dashboard avanzado para análisis del negocio:
-
-- 💰 Rendimiento Financiero: ingresos por período, ticket promedio.  
-- ⚙️ Productividad: tasa de asistencia, turnos atendidos vs. cancelados.  
-- 🐶 Tendencias:  
-  - Razas frecuentes  
-  - Servicios más solicitados  
-  - Visitas por cliente  
-
----
-
-## 🛡️ Auditoría y Trazabilidad (AuditLog)
-
-Basada en la entidad **AuditoriaEvento**, registra:
-
-- Quién realizó la acción  
-- Qué acción realizó  
-- Cuándo  
-- Desde qué rol  
-- Sobre qué entidad  
-
-Garantiza integridad, transparencia y cumplimiento normativo.
+Sistema basado en la entidad `AuditoriaEvento`, que registra:
+- Quién realizó la acción
+- Qué acción se realizó
+- Cuándo ocurrió
+- Desde qué rol
+- Sobre qué entidad
 
 ---
 
 ## 🧩 Patrones de Diseño Utilizados
 
-| Patrón | Uso en VetIng |
-|--------|----------------|
-| **Singleton** | Cacheo de configuraciones horarias globales. |
-| **Repository** | Abstracción del acceso a datos (EF Core). |
-| **Service Layer** | Desacople de lógica de negocio en la API y el sistema principal. |
-| **Observer** | Envío automático de mail al registrarse un cliente. |
-| **Decorator** | Cálculo flexible de costos (fines de semana, extras, descuentos). |
-| **Composite** | Gestión agrupada y jerárquica de permisos. |
-| **Memento** | Recuperación de versiones previas de atenciones clínicas. |
+`Singleton` • `Repository` • `Service Layer` • `Observer` • `Decorator` • `Composite` • `Memento`
 
 ---
 
-## 🧪 Calidad y Testing
+## 🧪 Testing
 
-- **xUnit** → Pruebas unitarias de servicios.  
-- **Integration Tests** → Flujo completo (Identity, DB, lógica).  
+- Pruebas unitarias con **xUnit**.
+- Pruebas de integración de flujos completos.
 
 ---
 
 ## 🧰 Stack Tecnológico
 
-| Categoría | Tecnología |
-|-----------|-----------|
-| **Core** | .NET 8 (C#) |
-| **Framework Web** | ASP.NET Core MVC + Razor |
-| **API** | ASP.NET Core Web API (Swagger) |
-| **Base de Datos** | SQL Server |
-| **ORM** | Entity Framework Core |
-| **Testing** | xUnit, Moq, WebApplicationFactory |
-| **Frontend** | HTML5, CSS3, JavaScript |
-| **Pagos** | Mercado Pago SDK |
-| **Herramientas** | Git, Visual Studio |
+- .NET 8 (C#)
+- ASP.NET Core MVC
+- ASP.NET Core Web API
+- PostgreSQL
+- Entity Framework Core
+- ASP.NET Core Identity
+- Mercado Pago SDK
+- HTML, CSS y JavaScript
+- Render & Neon
+- Git
 
 ---
 
+<div align="center">
+
 ## 👨‍💻 Autores
 
-**Ulises Ezequiel Sosa - Leonel Gallaretto**
+**Ulises Ezequiel Sosa**
+**Leonel Gallaretto**
+
+</div>
 
