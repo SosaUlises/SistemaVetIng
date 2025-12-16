@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Ulises\\source\\repos\\SistemaVetIng\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6272BE07-6D0C-44EB-9692-80A19F8F92DB}|SistemaVetIng\\SistemaVetIng.csproj|c:\\users\\ulises\\source\\repos\\sistemaveting\\sistemaveting\\views\\mascota\\modificarmascota.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6272BE07-6D0C-44EB-9692-80A19F8F92DB}|SistemaVetIng\\SistemaVetIng.csproj|solutionrelative:sistemaveting\\views\\mascota\\modificarmascota.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{6272BE07-6D0C-44EB-9692-80A19F8F92DB}|SistemaVetIng\\SistemaVetIng.csproj|c:\\users\\ulises\\source\\repos\\sistemaveting\\sistemaveting\\views\\veterinario\\paginaprincipal.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6272BE07-6D0C-44EB-9692-80A19F8F92DB}|SistemaVetIng\\SistemaVetIng.csproj|solutionrelative:sistemaveting\\views\\veterinario\\paginaprincipal.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6272BE07-6D0C-44EB-9692-80A19F8F92DB}|SistemaVetIng\\SistemaVetIng.csproj|c:\\users\\ulises\\source\\repos\\sistemaveting\\sistemaveting\\views\\veterinaria\\paginaprincipal.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6272BE07-6D0C-44EB-9692-80A19F8F92DB}|SistemaVetIng\\SistemaVetIng.csproj|solutionrelative:sistemaveting\\views\\veterinaria\\paginaprincipal.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,14 +35,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ModificarMascota.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ulises\\source\\repos\\SistemaVetIng\\SistemaVetIng\\Views\\Mascota\\ModificarMascota.cshtml",
-              "RelativeDocumentMoniker": "SistemaVetIng\\Views\\Mascota\\ModificarMascota.cshtml",
-              "ToolTip": "C:\\Users\\Ulises\\source\\repos\\SistemaVetIng\\SistemaVetIng\\Views\\Mascota\\ModificarMascota.cshtml",
-              "RelativeToolTip": "SistemaVetIng\\Views\\Mascota\\ModificarMascota.cshtml",
-              "ViewState": "AgIAAMAAAAAAAAAAAAAAAM4AAAAhAAAAAAAAAA==",
+              "Title": "PaginaPrincipal.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ulises\\source\\repos\\SistemaVetIng\\SistemaVetIng\\Views\\Veterinario\\PaginaPrincipal.cshtml",
+              "RelativeDocumentMoniker": "SistemaVetIng\\Views\\Veterinario\\PaginaPrincipal.cshtml",
+              "ToolTip": "C:\\Users\\Ulises\\source\\repos\\SistemaVetIng\\SistemaVetIng\\Views\\Veterinario\\PaginaPrincipal.cshtml",
+              "RelativeToolTip": "SistemaVetIng\\Views\\Veterinario\\PaginaPrincipal.cshtml",
+              "ViewState": "AgIAADgBAAAAAAAAAAAAAEoBAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-16T01:35:54.878Z",
+              "WhenOpened": "2025-12-16T01:46:13.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PaginaPrincipal.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ulises\\source\\repos\\SistemaVetIng\\SistemaVetIng\\Views\\Veterinaria\\PaginaPrincipal.cshtml",
+              "RelativeDocumentMoniker": "SistemaVetIng\\Views\\Veterinaria\\PaginaPrincipal.cshtml",
+              "ToolTip": "C:\\Users\\Ulises\\source\\repos\\SistemaVetIng\\SistemaVetIng\\Views\\Veterinaria\\PaginaPrincipal.cshtml",
+              "RelativeToolTip": "SistemaVetIng\\Views\\Veterinaria\\PaginaPrincipal.cshtml",
+              "ViewState": "AgIAAK0BAAAAAAAAAAAAAMABAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T01:44:34.1Z",
               "EditorCaption": ""
             }
           ]
