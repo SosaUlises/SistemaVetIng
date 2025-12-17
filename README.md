@@ -4,7 +4,10 @@
 ### ☁️ Versión Cloud (PostgreSQL + Render + Neon)
 
 ---
-> <sub>Versión original (Local – SQL Server): https://github.com/GallarettoLeonel2AN/SistemaVetIng</sub>
+
+> 🔙 **Versión original (Local – SQL Server)**  
+> <sub>https://github.com/GallarettoLeonel2AN/SistemaVetIng</sub>
+
 ---
 
 ### 🎓 Proyecto Académico – Ingeniería en Sistemas Informáticos
